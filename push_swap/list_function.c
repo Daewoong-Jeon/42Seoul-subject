@@ -6,11 +6,22 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 18:10:22 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/24 21:24:41 by djeon            ###   ########.fr       */
+/*   Updated: 2021/05/27 17:19:33 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_stack			*ft_find_index(t_stack **lst, int index)
+{
+	t_stack		*result;
+
+	result = *lst;
+	index--;
+	while (index--)
+		result = result->next;
+	return (result);
+}
 
 void			ft_delete(t_stack **lst)
 {

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 17:18:15 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/25 18:04:09 by djeon            ###   ########.fr       */
+/*   Updated: 2021/05/27 20:12:08 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@ void			print_list(t_stack *lst, int len);
 void			ft_delete(t_stack **lst);
 t_stack			*ft_new(int content);
 void			ft_add(t_stack **lst, t_stack *new1);
-void			swap_list(t_stack **lst);
-void			push_list(t_stack **lst1, t_stack **lst2);
-void			rotate_list(t_stack **lst, int direction);
+t_stack			*ft_find_index(t_stack **lst, int index);
+void			swap_list(t_stack **lst, char stack);
+void			push_list(t_stack **lst1, t_stack **lst2, char stack);
+void			rotate_list(t_stack **lst, int direction, char stack);
+void			push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, int stack);
+void			push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, int stack);
+void			push_swap_sort_23(t_stack **lst, int len, char stack);
+void			push_swap_sort_23_ba(t_stack **dst, t_stack **src, int len);
 
 #endif
