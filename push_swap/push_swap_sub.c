@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 17:35:17 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/27 20:10:57 by mac              ###   ########.fr       */
+/*   Updated: 2021/05/28 01:07:09 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,48 +69,62 @@ void		push_swap_sort_23_ba(t_stack **dst, t_stack **src, int len)
 			push_list(dst, src, 'a');
 		}
 	}
+	else
+	{
+		if ((*src)->data > (*src)->next->data)
+		{
+			push_list(dst, src, 'a');
+			push_list(dst, src, 'a');
+		}
+		else
+		{
+			swap_list(src, 'b');
+			push_list(dst, src, 'a');
+			push_list(dst, src, 'a');
+		}
+	}
 }
 
-void		push_swap_sort_23(t_stack **lst, int len, char stack)
+void		push_swap_sort_23(t_stack **lst, int len)
 {
 	if (len == 3)
 	{
 		if ((*lst)->data < (*lst)->next->data && (*lst)->next->data
 				> (*lst)->next->next->data)
 		{
-			rotate_list(lst, -1, stack);
-			swap_list(lst, stack);
-			rotate_list(lst, 1, stack);
+			rotate_list(lst, -1, 'a');
+			swap_list(lst, 'a');
+			rotate_list(lst, 1, 'a');
 		}
 		else if ((*lst)->data > (*lst)->next->data && (*lst)->next->data
 				< (*lst)->next->next->data)
-			swap_list(lst, stack);
+			swap_list(lst, 'a');
 		else if ((*lst)->data < (*lst)->next->data && (*lst)->next->data
 				> (*lst)->next->next->data)
 		{
-			rotate_list(lst, -1, stack);
-			swap_list(lst, stack);
-			rotate_list(lst, 1, stack);
-			swap_list(lst, stack);
+			rotate_list(lst, -1, 'a');
+			swap_list(lst, 'a');
+			rotate_list(lst, 1, 'a');
+			swap_list(lst, 'a');
 		}
 		else if ((*lst)->data < (*lst)->next->data && (*lst)->next->data
 				> (*lst)->next->next->data)
 		{
-			swap_list(lst, stack);
-			rotate_list(lst, -1, stack);
-			swap_list(lst, stack);
-			rotate_list(lst, 1, stack);
+			swap_list(lst, 'a');
+			rotate_list(lst, -1, 'a');
+			swap_list(lst, 'a');
+			rotate_list(lst, 1, 'a');
 		}
 		else if ((*lst)->data > (*lst)->next->data && (*lst)->next->data
 				> (*lst)->next->next->data)
 		{
-			swap_list(lst, stack);
-			rotate_list(lst, -1, stack);
-			swap_list(lst, stack);
-			rotate_list(lst, 1, stack);
-			swap_list(lst, stack);
+			swap_list(lst, 'a');
+			rotate_list(lst, -1, 'a');
+			swap_list(lst, 'a');
+			rotate_list(lst, 1, 'a');
+			swap_list(lst, 'a');
 		}
 	}
 	else if (len == 2 && (*lst)->data > (*lst)->next->data)
-		swap_list(lst, stack);
+		swap_list(lst, 'a');
 }

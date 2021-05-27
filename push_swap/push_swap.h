@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 17:18:15 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/27 20:12:08 by mac              ###   ########.fr       */
+/*   Updated: 2021/05/28 01:05:40 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_stack			*ft_find_index(t_stack **lst, int index);
 void			swap_list(t_stack **lst, char stack);
 void			push_list(t_stack **lst1, t_stack **lst2, char stack);
 void			rotate_list(t_stack **lst, int direction, char stack);
-void			push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, int stack);
-void			push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, int stack);
-void			push_swap_sort_23(t_stack **lst, int len, char stack);
+void			push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, long long sum);
+void			push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, long long sum);
+void			push_swap_sort_23(t_stack **lst, int len);
 void			push_swap_sort_23_ba(t_stack **dst, t_stack **src, int len);
 
 #endif
