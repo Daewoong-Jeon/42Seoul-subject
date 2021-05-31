@@ -6,21 +6,28 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 18:10:22 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/28 15:45:52 by djeon            ###   ########.fr       */
+/*   Updated: 2021/05/31 15:09:22 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack			*ft_find_index(t_stack **lst, int index)
+int				ft_listsize(t_stack *lst)
 {
-	t_stack		*result;
+	t_stack		*tmp;
+	int			count;
 
-	result = *lst;
-	index--;
-	while (index--)
-		result = result->next;
-	return (result);
+	tmp = lst;
+	count = 0;
+	if (lst == NULL)
+		return (0);
+	while (tmp->next != NULL && tmp->next != lst)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	count++;
+	return (count);
 }
 
 void			ft_delete(t_stack **lst)

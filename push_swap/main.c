@@ -6,183 +6,167 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 16:56:11 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/28 22:10:43 by djeon            ###   ########.fr       */
+/*   Updated: 2021/05/31 22:28:07 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len)
+void		push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, int *buffer)
 {
-	int				pivot_1;
-	int				pivot_2;
+	t_pivot			pivot;
 	int				back_a;
 	int				len_a;
 	int				len_b;
+	int				com_len;
+	int				flag;
+	int				tmp_a;
 
-	if (len == 0 || len == 2 || len == 3)
+	if (len == 0 || len == 1 || len == 2 || len == 3)
 	{
-		if (len == 2 || len == 3)
-			push_swap_sort_23_ba(a_head, b_head, len);
+		if ((len == 2 || len == 3) && len != ft_listsize(*b_head))
+			sort_23_ba_fix(a_head, b_head, len, buffer);
+		else if (len == 2 || len == 3)
+			sort_23_ba(a_head, b_head, len, buffer);
+		else if (len == 1)
+			push_list(a_head, b_head, 'a', buffer);
+		return ;
+	}
+	if (check_sort(b_head, len, 'b'))
+	{
+		while (len--)
+			push_list(a_head, b_head, 'a', buffer);
 		return ;
 	}
 	len_a = 0;
 	len_b = 0;
 	back_a = 0;
-//	printf("-----------------------b to a-------------------------\n");
-//	printf("len : %d\n", len);
-	pivot_2 = find_pivot(b_head, len, &pivot_1);
-//	printf("pivot1 : %d, pivot2 : %d\n", pivot_1, pivot_2);
-//	t_stack *tmp = *a_head;
-//	printf("stack a : ");
-//	print_list(tmp, 100);
-//	tmp = *b_head;
-//	printf("stack b : ");
-//	print_list(tmp, 100);
-	while (len--)
+	flag = 0;
+	tmp_a = 0;
+	com_len = (len / 3 + 1) * 2 + 1;
+	pivot = find_pivot(b_head, len);
+	while (*b_head != NULL && len--)
 	{
-		if (pivot_1 > (*b_head)->data)
+		if (pivot.pivot_l > (*b_head)->data)
 		{
-			rotate_list(b_head, -1, 'b');
+			rotate_list(b_head, -1, 'b', 0, buffer);
 			len_b++;
 		}
 		else
 		{
-			if (pivot_2 <= (*b_head)->data)
-				push_list(a_head, b_head, 'a');
+			if (pivot.pivot_h <= (*b_head)->data)
+				push_list(a_head, b_head, 'a', buffer);
+			else if (flag == 1)
+			{
+				push_list(a_head, b_head, 'a', buffer);
+				tmp_a++;
+			}
 			else
 			{
-				push_list(a_head, b_head, 'a');
-				rotate_list(a_head, -1, 'a');
+				push_list(a_head, b_head, 'a', buffer);
+				rotate_list(a_head, -1, 'a', 0, buffer);
 				back_a++;
 			}
 			len_a++;
 		}
+		if (len_a - back_a == com_len)
+			flag = 1;
+		if (len_a == com_len)
+			break ;
 	}
 	len = len_b;
-	while (len--)
-		rotate_list(b_head, 1, 'b');
-//	tmp = *a_head;
-//	printf("stack a : ");
-//	print_list(tmp, 100);
-//	tmp = *b_head;
-//	printf("stack b : ");
-//	print_list(tmp, 100);
-//	printf("len_a : %d, len_b : %d, back_b : %d\n", len_a, len_b, back_a);
-//	printf("min_a : %d, min_b : %d, min_c : %d\n", min_a, min_b, min_c);
-	push_swap_sort_ab(a_head, b_head, len_a - back_a);
+	com_len = ft_listsize(*b_head);
+	while (com_len > len && len--)
+		rotate_list(b_head, 1, 'b', 0, buffer);
+	push_swap_sort_ab(a_head, b_head, len_a - back_a - tmp_a, buffer);
 	len = back_a;
-	while (len--)
-		rotate_list(a_head, 1, 'a');
-	push_swap_sort_ab(a_head, b_head, back_a);
-	push_swap_sort_ba(b_head, a_head, len_b);
+	com_len = ft_listsize(*a_head);
+	while (com_len > len && len--)
+		rotate_list(a_head, 1, 'a', 0, buffer);
+	push_swap_sort_ab(a_head, b_head, back_a + tmp_a, buffer);
+	push_swap_sort_ba(b_head, a_head, len_b, buffer);
 }
 
-void		push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len)
+void		push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, int *buffer)
 {
-	int				pivot_1;
-	int				pivot_2;
+	t_pivot			pivot;
 	int				back_b;
 	int				len_a;
 	int				len_b;
+	int				com_len;
+	int				flag;
+	int				tmp_b;
 
 	if (len == 0 || len == 1 || len == 2 || len == 3)
 	{
-		if (len == 2 || len == 3)
-			push_swap_sort_23(a_head, len);
+		if ((len == 2 || len == 3) && len != ft_listsize(*a_head))
+			sort_23_ab_fix(a_head, len, buffer);
+		else if (len == 2 || len == 3)
+			sort_23_ab(a_head, len, buffer);
 		return ;
 	}
+	if (check_sort(a_head, len, 'a'))
+		return ;
 	len_a = 0;
 	len_b = 0;
 	back_b = 0;
-	printf("-----------------------a to b-------------------------\n");
-	printf("len : %d\n", len);
-	pivot_2 = find_pivot(a_head, len, &pivot_1);
-	printf("pivot1 : %d, pivot2 : %d\n", pivot_1, pivot_2);
-//	t_stack *tmp = *a_head;
-//	printf("stack a : ");
-//	print_list(tmp, 100);
-//	tmp = *b_head;
-//	printf("stack b : ");
-//	print_list(tmp, 100);
-	while (len--)
+	flag = 0;
+	tmp_b = 0;
+	com_len = (len / 3 + 1) * 2 + 1;
+	pivot = find_pivot(a_head, len);
+	while (*a_head != NULL && len--)
 	{
-		if (pivot_2 < (*a_head)->data)
+		if (pivot.pivot_h < (*a_head)->data)
 		{
-			rotate_list(a_head, -1, 'a');
+			rotate_list(a_head, -1, 'a', 0, buffer);
 			len_a++;
 		}
 		else
 		{
-			if (pivot_1 >= (*a_head)->data)
-				push_list(b_head, a_head, 'b');
+			if (pivot.pivot_l >= (*a_head)->data)
+				push_list(b_head, a_head, 'b', buffer);
+			else if (flag == 1)
+			{
+				push_list(b_head, a_head, 'b', buffer);
+				tmp_b++;
+			}
 			else
 			{
-				push_list(b_head, a_head, 'b');
-				rotate_list(b_head, -1, 'b');
+				push_list(b_head, a_head, 'b', buffer);
+				rotate_list(b_head, -1, 'b', 0, buffer);
 				back_b++;
 			}
 			len_b++;
 		}
+		if (len_b - back_b == com_len)
+			flag = 1;
+		if (len_b == com_len)
+			break ;
 	}
-	len = len_a;
-	while (len--)
-		rotate_list(a_head, 1, 'a');
-	len = back_b;
-	while (len--)
-		rotate_list(b_head, 1, 'b');
-//	tmp = *a_head;
-//	printf("stack a : ");
-//	print_list(tmp, 100);
-//	tmp = *b_head;
-//	printf("stack b : ");
-//	print_list(tmp, 100);
-//	printf("len_a : %d, len_b : %d, back_b : %d\n", len_a, len_b, back_b);
-	push_swap_sort_ab(a_head, b_head, len_a);
-	push_swap_sort_ba(b_head, a_head, back_b);
-	push_swap_sort_ba(b_head, a_head, len_b - back_b);
+	rotate_list_sametime(a_head, b_head, len_a, back_b, buffer);
+	push_swap_sort_ab(a_head, b_head, len_a, buffer);
+	push_swap_sort_ba(b_head, a_head, back_b + tmp_b, buffer);
+	push_swap_sort_ba(b_head, a_head, len_b - back_b - tmp_b, buffer);
 }
 
 int			main(int argc, char *argv[])
 {
 	t_stack			*a_head;
 	t_stack			*b_head;
-	t_stack			*tmp;
-	int				i;
-	char			**str_tmp;
+	char			*print[12];
+	int				*buffer;
 
-	i = 0;
+	a_head = NULL;
 	b_head = NULL;
-	printf("argc : %d\n", argc);
-	if (argc > 2)
-	{
-		while (++i < argc)
-		{
-			tmp = ft_new(ft_atoi(argv[i]));
-			ft_add(&a_head, tmp);
-		}
-	}
-	else if (argc == 2)
-	{
-		str_tmp = ft_split(argv[1], ' ');
-		while (str_tmp[i] != NULL)
-		{
-			tmp = ft_new(ft_atoi(str_tmp[i++]));
-			ft_add(&a_head, tmp);
-		}
-		argc += (i - 1);
-	}
-	else
-	{
-		printf("nothing at input\n");
-		return (-1);
-	}
-//	printf("%d\n", argc);
-	push_swap_sort_ab(&a_head, &b_head, argc - 1);
-//	printf("------------result-------------\n");
-//	tmp = a_head;
-//	print_list(tmp, argc);
-//	tmp = b_head;
-//	print_list(tmp, argc);
+	buffer = (int*)malloc(sizeof(int));
+	input_str(print);
+	*buffer = 0;
+	argc = input_list(&a_head, argv, argc);
+	push_swap_sort_ab(&a_head, &b_head, argc - 1, buffer);
+//	t_stack *tmp = a_head;
+//	print_list(tmp, 100);
+	if (*buffer != 0)
+		ft_putstr_fd(print[*buffer], 1);
+	free(buffer);
 	return (0);
 }
