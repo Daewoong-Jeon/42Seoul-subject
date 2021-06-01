@@ -6,56 +6,59 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 22:22:07 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/31 21:52:16 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:17:41 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void			rotate_list_sametime(t_stack **a, t_stack **b, int len_1, int len_2, int *buffer)
+void			reverse_rotate_ba(t_stack **lst, t_tmp tmp, char stack, int *buffer)
 {
-	int			com_len_1;
-	int			com_len_2;
+	int			len;
+	int			stack_size;
+
+	stack_size = ft_listsize(*lst);
+	if (stack == 'a')
+	{
+		len = tmp.back_a;
+		while (stack_size > tmp.back_a && len--)
+			rotate_list(lst, 1, stack, buffer);
+	}
+	else if (stack == 'b')
+	{
+		len = tmp.len_b;
+		while (stack_size > tmp.len_b && len--)
+			rotate_list(lst, 1, stack, buffer);
+	}
+}
+
+void			reverse_rotate_ab(t_stack **a, t_stack **b, t_tmp tmp, int *buffer)
+{
+	t_stack		**stack_tmp;
+	char		stack;
+	int			len_1;
+	int			len_2;
 	int			len_tmp;
 
-	com_len_1 = ft_listsize(*a);
-	com_len_2 = ft_listsize(*b);
-	if (len_1 == com_len_1 || len_2 == com_len_2)
+	len_1 = tmp.back_b;
+	len_2 = tmp.len_a;
+	stack = 'b';
+	stack_tmp = b;
+	if (tmp.len_a > tmp.back_b)
 	{
-		len_tmp = len_1;
-		while (com_len_1 > len_tmp && len_tmp--)
-			rotate_list(a, 1, 'a', 0, buffer);
-		len_tmp = len_2;
-		while (com_len_2 > len_tmp && len_tmp--)
-			rotate_list(b, 1, 'b', 0, buffer);
+		len_1 = tmp.len_a;
+		len_2 = tmp.back_b;
+		stack = 'a';
+		stack_tmp = a;
 	}
-	else
+	len_tmp = len_1 - len_2;
+	while (len_2--)
 	{
-		if (len_1 > len_2)
-		{
-			len_tmp = len_1 - len_2;
-			while (len_2--)
-			{
-				rotate_list(a, 1, 'a', 1, buffer);
-				rotate_list(b, 1, 'b', 1, buffer);
-				print_instructions(buffer, "rrr\n");
-			}
-			while (len_tmp--)
-				rotate_list(a, 1, 'a', 0, buffer);
-		}
-		else
-		{
-			len_tmp = len_2 - len_1;
-			while (len_1--)
-			{
-				rotate_list(a, 1, 'a', 1, buffer);
-				rotate_list(b, 1, 'b', 1, buffer);
-				print_instructions(buffer, "rrr\n");
-			}
-			while (len_tmp--)
-				rotate_list(b, 1, 'b', 0, buffer);
-		}
+		rotate_list(a, 1, 'a', buffer);
+		rotate_list(b, 1, 'b', buffer);
 	}
+	while (len_tmp--)
+		rotate_list(stack_tmp, 1, stack, buffer);
 }
 
 void			swap_list(t_stack **lst, char stack, int *buffer)
@@ -88,24 +91,24 @@ void			push_list(t_stack **lst1, t_stack **lst2, char stack, int *buffer)
 		print_instructions(buffer, "pb\n");
 }
 
-void			rotate_list(t_stack **lst, int direction, char stack, int same, int *buffer)
+void			rotate_list(t_stack **lst, int direction, char stack, int *buffer)
 {
 	if ((*lst)->before == NULL || (*lst)->next == NULL)
 		return ;
 	if (direction == 1)
 	{
 		*lst = (*lst)->before;
-		if (stack == 'a' && same == 0)
+		if (stack == 'a')
 			print_instructions(buffer, "rra\n");
-		else if (same == 0)
+		else
 			print_instructions(buffer, "rrb\n");
 	}
 	else
 	{
 		*lst = (*lst)->next;
-		if (stack == 'a' && same == 0)
+		if (stack == 'a')
 			print_instructions(buffer, "ra\n");
-		else if (same == 0)
+		else
 			print_instructions(buffer, "rb\n");
 	}
 }

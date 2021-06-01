@@ -6,7 +6,7 @@
 #    By: djeon <djeon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/25 19:30:48 by djeon             #+#    #+#              #
-#    Updated: 2021/05/27 19:50:41 by mac              ###   ########.fr        #
+#    Updated: 2021/06/01 15:37:43 by mac              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ CC = gcc
 HEADER = push_swap.h
 CFLAGS = -Wall -Wextra -Werror
 NAME = push_swap
-SRC = main.c push_swap_function.c push_swap_sub.c list_function.c \
+SRC = push_swap.c push_swap_sub.c push_swap_function.c list_function.c \
+	  sort_23_ab.c sort_23_ba.c sort_23_ba_sub.c sort_sub.c \
+	  print_instructions.c find_pivot.c \
 	  tmp.c
 
 OBJECTS = $(SRC:.c=.o)

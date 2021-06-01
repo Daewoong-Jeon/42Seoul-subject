@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 17:18:15 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/31 22:14:30 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:04:14 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ typedef struct	s_pivot
 	int					pivot_h;
 }				t_pivot;
 
+typedef struct	s_tmp
+{
+	int					len_a;
+	int					len_b;
+	int					back_a;
+	int					back_b;
+	int					max_pa;
+	int					max_pb;
+	int					flag_ra;
+	int					flag_rb;
+	int					not_back_a;
+	int					not_back_b;
+	t_pivot				pivot;
+}				t_tmp;
+
 void			print_list(t_stack *lst, int len);
 
 void			ft_delete(t_stack **lst);
@@ -39,8 +54,9 @@ int				ft_listsize(t_stack *lst);
 t_stack			*ft_find_index(t_stack **lst, int index);
 void			swap_list(t_stack **lst, char stack, int *buffer);
 void			push_list(t_stack **lst1, t_stack **lst2, char stack, int *buffer);
-void			rotate_list(t_stack **lst, int direction, char stack, int same, int *buffer);
-void			rotate_list_sametime(t_stack **a, t_stack **b, int len_1, int len_2, int *buffer);
+void			rotate_list(t_stack **lst, int direction, char stack, int *buffer);
+void			reverse_rotate_ab(t_stack **a, t_stack **b, t_tmp tmp, int *buffer);
+void			reverse_rotate_ba(t_stack **lst, t_tmp tmp, char stack, int *buffer);
 void			push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, int *buffer);
 void			push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, int *buffer);
 void			sort_23_ab_fix(t_stack **lst, int len, int *buffer);
@@ -52,5 +68,10 @@ int				check_sort(t_stack **lst, int len, char stack);
 void			print_instructions(int *buffer, char *str);
 void			input_str(char **tmp);
 int				input_list(t_stack **a_head, char *argv[], int len);
+void			init_struct_tmp(t_tmp *input, int len);
+void			pivot_condition_ab(t_stack **a_head, t_stack **b_head, t_tmp *tmp, int *buffer);
+void			pivot_condition_ba(t_stack **a_head, t_stack **b_head, t_tmp *tmp, int *buffer);
+void			recursive_0123_ba(t_stack **a_head, t_stack **b_head, int len, int *buffer);
+void			recursive_0123_ab(t_stack **a_head, int len, int *buffer);
 
 #endif
