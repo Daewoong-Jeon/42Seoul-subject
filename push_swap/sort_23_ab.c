@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_23_ab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/01 14:30:57 by mac               #+#    #+#             */
-/*   Updated: 2021/06/01 15:19:10 by mac              ###   ########.fr       */
+/*   Created: 2021/06/01 17:50:08 by djeon             #+#    #+#             */
+/*   Updated: 2021/06/01 17:50:22 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		sort_23_ab_fix_sub(t_stack **lst, int *buffer)
 	if ((*lst)->data > (*lst)->next->data && (*lst)->next->data
 				< (*lst)->next->next->data && (*lst)->data
 				< (*lst)->next->next->data)
-			swap_list(lst, 'a', buffer);
+		swap_list(lst, 'a', buffer);
 	else if ((*lst)->data > (*lst)->next->data && (*lst)->next->data
 			< (*lst)->next->next->data && (*lst)->data
 			> (*lst)->next->next->data)

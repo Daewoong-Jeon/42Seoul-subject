@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 16:56:11 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/01 13:54:01 by mac              ###   ########.fr       */
+/*   Updated: 2021/06/01 20:00:34 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, int *buffer)
+void		push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len,
+		int *buffer)
 {
 	t_tmp			tmp;
 
@@ -30,13 +31,15 @@ void		push_swap_sort_ba(t_stack **b_head, t_stack **a_head, int len, int *buffer
 			break ;
 	}
 	reverse_rotate_ba(b_head, tmp, 'b', buffer);
-	push_swap_sort_ab(a_head, b_head, tmp.len_a - tmp.back_a - tmp.not_back_a, buffer);
+	push_swap_sort_ab(a_head, b_head, tmp.len_a - tmp.back_a - tmp.not_back_a,
+			buffer);
 	reverse_rotate_ba(a_head, tmp, 'a', buffer);
 	push_swap_sort_ab(a_head, b_head, tmp.back_a + tmp.not_back_a, buffer);
 	push_swap_sort_ba(b_head, a_head, tmp.len_b, buffer);
 }
 
-void		push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, int *buffer)
+void		push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len,
+		int *buffer)
 {
 	t_tmp			tmp;
 
@@ -56,7 +59,79 @@ void		push_swap_sort_ab(t_stack **a_head, t_stack **b_head, int len, int *buffer
 	reverse_rotate_ab(a_head, b_head, tmp, buffer);
 	push_swap_sort_ab(a_head, b_head, tmp.len_a, buffer);
 	push_swap_sort_ba(b_head, a_head, tmp.back_b + tmp.not_back_b, buffer);
-	push_swap_sort_ba(b_head, a_head, tmp.len_b - tmp.back_b - tmp.not_back_b, buffer);
+	push_swap_sort_ba(b_head, a_head, tmp.len_b - tmp.back_b - tmp.not_back_b,
+			buffer);
+}
+
+void		push_swap_sort_45_sub(t_stack **a_head, t_stack **b_head, int index,
+		int *buffer)
+{
+	int				len;
+	int				i;
+
+	i = 0;
+	len = ft_listsize(*a_head);
+	if (len - index == 0)
+	{
+		push_list(a_head, b_head, 'a', buffer);
+		rotate_list(a_head, -1, 'a', buffer);
+	}
+	else if (len - index == 1)
+	{
+		rotate_list(a_head, 1, 'a', buffer);
+		push_list(a_head, b_head, 'a', buffer);
+		rotate_list(a_head, -1, 'a', buffer);
+		rotate_list(a_head, -1, 'a', buffer);
+	}
+	else
+	{
+		while (i++ < index)
+			rotate_list(a_head, -1, 'a', buffer);
+		push_list(a_head, b_head, 'a', buffer);
+		while (--i)
+			rotate_list(a_head, 1, 'a', buffer);
+	}
+}
+
+void		push_swap_sort_45(t_stack **a_head, t_stack **b_head, int len,
+		int *buffer)
+{
+	t_stack			*tmp;
+	int				num_pa;
+	int				tmp_int;
+	int				index;
+
+	tmp_int = len;
+	num_pa = 0;
+	while (--tmp_int >= 3)
+	{
+		push_list(b_head, a_head, 'b', buffer);
+		num_pa++;
+	}
+	sort_23_ab(a_head, 3, buffer);
+	while (num_pa--)
+	{
+		tmp = *a_head;
+		index = 0;
+		tmp_int = 0;
+		while (tmp_int++ < 4 - num_pa)
+		{
+			if ((*b_head)->data < tmp->data)
+				break ;
+			tmp = tmp->next;
+			index++;
+		}
+		push_swap_sort_45_sub(a_head, b_head, index, buffer);
+	}
+}
+
+void		push_swap_sort(t_stack **a_head, t_stack **b_head, int len,
+		int *buffer)
+{
+	if (len >= 4 && len <= 5)
+		push_swap_sort_45(a_head, b_head, len, buffer);
+	else
+		push_swap_sort_ab(a_head, b_head, len, buffer);
 }
 
 int			main(int argc, char *argv[])
@@ -72,7 +147,7 @@ int			main(int argc, char *argv[])
 		return (0);
 	*buffer = 0;
 	argc = input_list(&a_head, argv, argc);
-	push_swap_sort_ab(&a_head, &b_head, argc - 1, buffer);
+	push_swap_sort(&a_head, &b_head, argc - 1, buffer);
 //	t_stack *tmp = a_head;
 //	print_list(tmp, 100);
 	input_str(print);
