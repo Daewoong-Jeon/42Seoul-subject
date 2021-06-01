@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 16:56:11 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/01 20:00:34 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/02 02:31:24 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,22 @@ void		push_swap_sort_45_sub(t_stack **a_head, t_stack **b_head, int index,
 
 	i = 0;
 	len = ft_listsize(*a_head);
-	if (len - index == 0)
+	if (len - index == 0 || len - index == 1)
 	{
+		if (len - index == 1)
+			rotate_list(a_head, 1, 'a', buffer);
 		push_list(a_head, b_head, 'a', buffer);
 		rotate_list(a_head, -1, 'a', buffer);
-	}
-	else if (len - index == 1)
-	{
-		rotate_list(a_head, 1, 'a', buffer);
-		push_list(a_head, b_head, 'a', buffer);
-		rotate_list(a_head, -1, 'a', buffer);
-		rotate_list(a_head, -1, 'a', buffer);
+		if (len - index == 1)
+			rotate_list(a_head, -1, 'a', buffer);
 	}
 	else
 	{
-		while (i++ < index)
+		while (i++ < index - 1)
 			rotate_list(a_head, -1, 'a', buffer);
 		push_list(a_head, b_head, 'a', buffer);
+		if (index > 0)
+			swap_list(a_head, 'a', buffer);
 		while (--i)
 			rotate_list(a_head, 1, 'a', buffer);
 	}
@@ -101,26 +100,24 @@ void		push_swap_sort_45(t_stack **a_head, t_stack **b_head, int len,
 	int				tmp_int;
 	int				index;
 
-	tmp_int = len;
-	num_pa = 0;
-	while (--tmp_int >= 3)
-	{
+	num_pa = len - 3;
+	while (--len >= 3)
 		push_list(b_head, a_head, 'b', buffer);
-		num_pa++;
-	}
 	sort_23_ab(a_head, 3, buffer);
+	len = 0;
 	while (num_pa--)
 	{
 		tmp = *a_head;
 		index = 0;
 		tmp_int = 0;
-		while (tmp_int++ < 4 - num_pa)
+		while (tmp_int++ < 3 + len)
 		{
 			if ((*b_head)->data < tmp->data)
 				break ;
 			tmp = tmp->next;
 			index++;
 		}
+		len++;
 		push_swap_sort_45_sub(a_head, b_head, index, buffer);
 	}
 }
