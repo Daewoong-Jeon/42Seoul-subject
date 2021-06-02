@@ -6,11 +6,12 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:18:44 by djeon             #+#    #+#             */
-/*   Updated: 2021/05/26 21:34:52 by mac              ###   ########.fr       */
+/*   Updated: 2021/06/03 02:02:42 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
 void			print_list(t_stack *lst, int len)
 {

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:51:00 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/01 17:51:02 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/02 20:11:34 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void		recursive_0123_ab(t_stack **a_head, int len, int *buffer)
 	}
 }
 
-void		recursive_0123_ba(t_stack **a_head, t_stack **b_head, int len, int *buffer)
+void		recursive_0123_ba(t_stack **a_head, t_stack **b_head, int len,
+		int *buffer)
 {
 	if (len == 2 || len == 3)
 	{
@@ -36,7 +37,8 @@ void		recursive_0123_ba(t_stack **a_head, t_stack **b_head, int len, int *buffer
 		push_list(a_head, b_head, 'a', buffer);
 }
 
-void		pivot_condition_ba(t_stack **a_head, t_stack **b_head, t_tmp *tmp, int *buffer)
+void		pivot_condition_ba(t_stack **a_head, t_stack **b_head, t_tmp *tmp,
+		int *buffer)
 {
 	if (tmp->pivot.pivot_l > (*b_head)->data)
 	{
@@ -64,7 +66,8 @@ void		pivot_condition_ba(t_stack **a_head, t_stack **b_head, t_tmp *tmp, int *bu
 		tmp->flag_ra = 0;
 }
 
-void		pivot_condition_ab(t_stack **a_head, t_stack **b_head, t_tmp *tmp, int *buffer)
+void		pivot_condition_ab(t_stack **a_head, t_stack **b_head, t_tmp *tmp,
+		int *buffer)
 {
 	if (tmp->pivot.pivot_h < (*a_head)->data)
 	{
