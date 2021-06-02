@@ -6,17 +6,17 @@
 /*   By: mac <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 21:53:00 by mac               #+#    #+#             */
-/*   Updated: 2020/07/27 21:53:36 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/02 15:03:20 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+long long		ft_atoi(const char *str)
 {
-	int		i;
-	int		mark;
-	int		result;
+	int				i;
+	int				mark;
+	long long		result;
 
 	i = 0;
 	mark = 1;

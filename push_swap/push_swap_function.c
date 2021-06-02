@@ -6,13 +6,14 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 22:22:07 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/01 17:49:47 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/02 20:16:39 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void			reverse_rotate_ba(t_stack **lst, t_tmp tmp, char stack, int *buffer)
+void			reverse_rotate_ba(t_stack **lst, t_tmp tmp, char stack,
+		int *buffer)
 {
 	int			len;
 	int			stack_size;
@@ -32,7 +33,8 @@ void			reverse_rotate_ba(t_stack **lst, t_tmp tmp, char stack, int *buffer)
 	}
 }
 
-void			reverse_rotate_ab(t_stack **a, t_stack **b, t_tmp tmp, int *buffer)
+void			reverse_rotate_ab(t_stack **a, t_stack **b, t_tmp tmp,
+		int *buffer)
 {
 	t_stack		**stack_tmp;
 	char		stack;
@@ -74,7 +76,8 @@ void			swap_list(t_stack **lst, char stack, int *buffer)
 		print_instructions(buffer, "sb\n");
 }
 
-void			push_list(t_stack **lst1, t_stack **lst2, char stack, int *buffer)
+void			push_list(t_stack **lst1, t_stack **lst2, char stack,
+		int *buffer)
 {
 	t_stack		*tmp;
 
@@ -91,7 +94,8 @@ void			push_list(t_stack **lst1, t_stack **lst2, char stack, int *buffer)
 		print_instructions(buffer, "pb\n");
 }
 
-void			rotate_list(t_stack **lst, int direction, char stack, int *buffer)
+void			rotate_list(t_stack **lst, int direction, char stack,
+		int *buffer)
 {
 	if ((*lst)->before == NULL || (*lst)->next == NULL)
 		return ;

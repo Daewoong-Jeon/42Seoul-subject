@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:48:58 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/01 17:49:01 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/02 20:19:26 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		print_reverse_rotate(char **tmp, int *buffer, char *str)
 			*buffer = 0;
 			return ;
 		}
-	 	if (*buffer != 0)
+		if (*buffer != 0)
 			ft_putstr_fd(tmp[*buffer], 1);
 		*buffer = 9;
 	}
