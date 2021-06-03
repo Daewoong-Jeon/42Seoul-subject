@@ -6,13 +6,13 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 21:00:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/03 01:55:54 by mac              ###   ########.fr       */
+/*   Updated: 2021/06/03 16:51:52 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int			sort_sub(t_stack **a_head, t_stack **b_head, char *line)
+int				sort_sub(t_stack **a_head, t_stack **b_head, char *line)
 {
 	if (ft_strncmp("pa", line, 3) == 0)
 		push_list_checker(a_head, b_head);
@@ -41,7 +41,7 @@ int			sort_sub(t_stack **a_head, t_stack **b_head, char *line)
 	return (0);
 }
 
-int			sort(t_stack **a_head, t_stack **b_head, char *line)
+int				sort(t_stack **a_head, t_stack **b_head, char *line)
 {
 	if (ft_strncmp("sa", line, 3) == 0)
 		swap_list_checker(a_head);
@@ -61,6 +61,8 @@ void			swap_list_checker(t_stack **lst)
 {
 	int			tmp;
 
+	if (*lst == NULL)
+		return ;
 	tmp = (*lst)->data;
 	(*lst)->data = (*lst)->next->data;
 	(*lst)->next->data = tmp;
@@ -81,7 +83,7 @@ void			push_list_checker(t_stack **lst1, t_stack **lst2)
 
 void			rotate_list_checker(t_stack **lst, int direction)
 {
-	if ((*lst)->before == NULL || (*lst)->next == NULL)
+	if (*lst == NULL || (*lst)->before == NULL || (*lst)->next == NULL)
 		return ;
 	if (direction == 1)
 		*lst = (*lst)->before;

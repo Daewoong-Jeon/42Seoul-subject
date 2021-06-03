@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 17:35:17 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/02 15:50:07 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/03 14:27:59 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int			str_to_list(t_stack **lst, char **str, int size)
 		return (-1);
 	while (str[i] != NULL)
 	{
-		j = 0;
-		while (str[i][j] != '\0')
-			if (str[i][j] < '0' || str[i][j++] > '9')
+		j = -1;
+		while (str[i][++j] != '\0')
+			if (str[i][j] != '-' && (str[i][j] < '0' || str[i][j] > '9'))
 				return (-1);
 		int_tmp = ft_atoi(str[i]);
 		if (int_tmp > 2147483647 || int_tmp < -2147483648)
