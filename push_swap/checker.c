@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 19:54:23 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/03 16:49:22 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/03 21:13:56 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int			get_instructions(t_stack **a_head, t_stack **b_head)
 
 	while (get_next_line(0, &line) > 0)
 	{
-		if (ft_strncmp("ERROR", line, 5) == 0)
+		if (ft_strncmp("Error", line, 5) == 0)
 			return (-1);
 		else if (line != NULL)
 			if (sort(a_head, b_head, line) == -1)
@@ -89,7 +89,7 @@ int			main(int argc, char *argv[])
 	len = ft_listsize(a_head);
 	if (get_instructions(&a_head, &b_head) == -1)
 	{
-		ft_putstr_fd("ERROR\n", 1);
+		ft_putstr_fd("Error\n", 1);
 		return (0);
 	}
 	if (check_sort(a_head, len) == -1)
