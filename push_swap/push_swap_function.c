@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 22:22:07 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/02 20:16:39 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/03 16:48:28 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void			swap_list(t_stack **lst, char stack, int *buffer)
 {
 	int			tmp;
 
+	if (*lst == NULL)
+		return ;
 	tmp = (*lst)->data;
 	(*lst)->data = (*lst)->next->data;
 	(*lst)->next->data = tmp;
@@ -97,7 +99,7 @@ void			push_list(t_stack **lst1, t_stack **lst2, char stack,
 void			rotate_list(t_stack **lst, int direction, char stack,
 		int *buffer)
 {
-	if ((*lst)->before == NULL || (*lst)->next == NULL)
+	if (*lst == NULL || (*lst)->before == NULL || (*lst)->next == NULL)
 		return ;
 	if (direction == 1)
 	{

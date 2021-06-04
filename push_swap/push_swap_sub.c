@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 17:35:17 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/04 10:44:25 by mac              ###   ########.fr       */
+/*   Updated: 2021/06/04 10:47:32 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int			str_to_list(t_stack **lst, char **str, int size)
 		return (-1);
 	while (str[i] != NULL)
 	{
-		j = 0;
-		while (str[i][j] != '\0')
-			if (str[i][j] < '0' || str[i][j++] > '9')
+		j = -1;
+		while (str[i][++j] != '\0')
+			if (str[i][j] != '-' && (str[i][j] < '0' || str[i][j] > '9'))
 				return (-1);
 		int_tmp = ft_atoi(str[i]);
 		if (int_tmp > 2147483647 || int_tmp < -2147483648)
@@ -104,7 +104,7 @@ int			input_list(t_stack **a_head, char *argv[], int argc)
 	{
 		if (str_to_list(a_head, &argv[1], argc - 1) == -1)
 		{
-			ft_putstr_fd("ERROR\n", 2);
+			ft_putstr_fd("Error\n", 2);
 			return (-1);
 		}
 	}
@@ -114,7 +114,7 @@ int			input_list(t_stack **a_head, char *argv[], int argc)
 		i = str_to_list(a_head, str_tmp, ft_strlen_2(str_tmp));
 		if (i == -1 || i == 1)
 		{
-			ft_putstr_fd("ERROR\n", 2);
+			ft_putstr_fd("Error\n", 2);
 			return (-1);
 		}
 		argc += (i - 1);

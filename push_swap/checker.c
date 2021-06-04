@@ -6,38 +6,11 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 19:54:23 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/04 10:45:13 by mac              ###   ########.fr       */
+/*   Updated: 2021/06/04 11:01:26 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void		input_list_checker(t_stack **a_head, char *argv[], int argc)
-{
-	t_stack			*tmp;
-	char			**str_tmp;
-	int				i;
-
-	if (argc > 2)
-	{
-		i = 1;
-		while (argv[i] != NULL)
-		{
-			tmp = ft_new(ft_atoi(argv[i++]));
-			ft_add(a_head, tmp);
-		}
-	}
-	else
-	{
-		i = 0;
-		str_tmp = ft_split(argv[1], ' ');
-		while (str_tmp[i] != NULL)
-		{
-			tmp = ft_new(ft_atoi(argv[i++]));
-			ft_add(a_head, tmp);
-		}
-	}
-}
 
 int			get_instructions(t_stack **a_head, t_stack **b_head)
 {
@@ -85,7 +58,8 @@ int			main(int argc, char *argv[])
 	b_head = NULL;
 	if (argc == 1)
 		return (0);
-	input_list_checker(&a_head, argv, argc);
+	if (input_list(&a_head, argv, argc) == -1)
+		return (0);
 	len = ft_listsize(a_head);
 	if (get_instructions(&a_head, &b_head) == -1)
 	{
