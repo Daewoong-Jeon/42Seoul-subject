@@ -6,11 +6,27 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:48:32 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/01 17:48:35 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/04 15:11:03 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void		valid_arg(char *argv)
+{
+	int			i;
+
+	i = 0;
+	while (argv[i] != '\0')
+	{
+		if (argv[i] == ' ' && argv[i + 1] == ' ')
+		{
+			ft_putstr_fd("Error\n", 2);
+			exit(0);
+		}
+		i++;
+	}
+}
 
 void		swap_arr(int *arr, int index_1, int index_2)
 {

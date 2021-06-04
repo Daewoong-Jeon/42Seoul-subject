@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 17:35:17 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/04 10:47:32 by mac              ###   ########.fr       */
+/*   Updated: 2021/06/04 15:09:47 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int			input_list(t_stack **a_head, char *argv[], int argc)
 	char			**str_tmp;
 	int				i;
 
-	i = 0;
 	if (argc > 2)
 	{
 		if (str_to_list(a_head, &argv[1], argc - 1) == -1)
@@ -110,6 +109,7 @@ int			input_list(t_stack **a_head, char *argv[], int argc)
 	}
 	else
 	{
+		valid_arg(argv[1]);
 		str_tmp = ft_split(argv[1], ' ');
 		i = str_to_list(a_head, str_tmp, ft_strlen_2(str_tmp));
 		if (i == -1 || i == 1)
