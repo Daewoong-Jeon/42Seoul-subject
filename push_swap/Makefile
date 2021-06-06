@@ -6,7 +6,7 @@
 #    By: djeon <djeon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/25 19:30:48 by djeon             #+#    #+#              #
-#    Updated: 2021/06/04 11:01:45 by mac              ###   ########.fr        #
+#    Updated: 2021/06/04 15:12:26 by djeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC_1 = push_swap.c push_swap_sub.c push_swap_function.c list_function.c \
 	  print_instructions.c find_pivot.c
 SRC_2 = checker.c checker_sub.c list_function.c push_swap_sub.c \
 	  ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c \
-	  push_swap_function.c print_instructions.c
+	  push_swap_function.c print_instructions.c find_pivot.c
 
 OBJECTS_1 = $(SRC_1:.c=.o)
 OBJECTS_2 = $(SRC_2:.c=.o)
