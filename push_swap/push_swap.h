@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 17:18:15 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/04 15:13:31 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/06 21:59:41 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void			sort_23_ba_fix(t_stack **dst, t_stack **src, int len,
 void			sort_23_ba(t_stack **dst, t_stack **src, int len, int *buffer);
 t_pivot			find_pivot(t_stack **lst, int len);
 void			valid_arg(char *argv);
+int				check_sort(t_stack *lst, int len);
 void			print_instructions(int *buffer, char *str);
 void			input_str(char **tmp);
 int				input_list(t_stack **a_head, char *argv[], int len);

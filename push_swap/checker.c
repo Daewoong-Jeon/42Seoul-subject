@@ -6,11 +6,12 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 19:54:23 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/04 14:35:19 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/07 11:22:22 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
 int			get_instructions(t_stack **a_head, t_stack **b_head)
 {
@@ -26,25 +27,6 @@ int			get_instructions(t_stack **a_head, t_stack **b_head)
 		free(line);
 	}
 	free(line);
-	return (0);
-}
-
-int			check_sort(t_stack *lst, int len)
-{
-	t_stack			*tmp;
-	int				i;
-
-	i = 0;
-	tmp = lst;
-	while (tmp->next != lst)
-	{
-		if (tmp->data > tmp->next->data)
-			return (-1);
-		tmp = tmp->next;
-		i++;
-	}
-	if (len != ++i)
-		return (-1);
 	return (0);
 }
 

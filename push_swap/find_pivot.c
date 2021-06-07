@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:48:32 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/04 15:11:03 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/07 11:15:28 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		valid_arg(char *argv)
 	int			i;
 
 	i = 0;
-	while (argv[i] != '\0')
+	while (argv[i + 1] != '\0')
 	{
 		if (argv[i] == ' ' && argv[i + 1] == ' ')
 		{
@@ -26,6 +26,25 @@ void		valid_arg(char *argv)
 		}
 		i++;
 	}
+}
+
+int			check_sort(t_stack *lst, int len)
+{
+	t_stack			*tmp;
+	int				i;
+
+	i = 0;
+	tmp = lst;
+	while (tmp->next != NULL && tmp->next != lst)
+	{
+		if (tmp->data > tmp->next->data)
+			return (-1);
+		tmp = tmp->next;
+		i++;
+	}
+	if (len != ++i)
+		return (-1);
+	return (0);
 }
 
 void		swap_arr(int *arr, int index_1, int index_2)

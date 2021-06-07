@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 16:56:11 by djeon             #+#    #+#             */
-/*   Updated: 2021/06/03 14:22:03 by djeon            ###   ########.fr       */
+/*   Updated: 2021/06/07 11:16:23 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int			main(int argc, char *argv[])
 		return (0);
 	*buffer = 0;
 	if ((argc = input_list(&a_head, argv, argc)) == -1)
+		return (0);
+	if (check_sort(a_head, argc - 1) != -1)
 		return (0);
 	push_swap_sort(&a_head, &b_head, argc - 1, buffer);
 	input_str(print);
