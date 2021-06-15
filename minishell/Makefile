@@ -6,7 +6,7 @@
 #    By: djeon <djeon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/25 19:30:48 by djeon             #+#    #+#              #
-#    Updated: 2021/06/14 20:02:24 by djeon            ###   ########.fr        #
+#    Updated: 2021/06/15 14:06:43 by djeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJECTS)
 	make all -C libft/
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) libft/libft.a
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) -lreadline libft/libft.a
 
 clean :
 	rm -f $(OBJECTS)
