@@ -9,4 +9,8 @@ data:
     - name: default
       protocol: layer2
       addresses:
+<<<<<<< HEAD
       - 192.168.99.10 - 192.168.99.243
+=======
+      - 192.168.99.10 - 192.168.99.229
+>>>>>>> fae2ea6b9ec89e9841c107fb8d2da73b1815c869
