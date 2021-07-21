@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/20 21:13:25 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/21 22:48:24 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ typedef struct s_carry
 
 int input_arg(t_arg *con, int argc, char **argv);
 int init_carrier(t_carry **carrier, t_arg con);
+int waiting(t_carry *carrier, struct timeval time, long wait_time);
 
 int eating(t_carry *carrier, int *num_eating);
-void sleeping_and_thinking(t_carry *carrier);
+int sleeping_and_thinking(t_carry *carrier);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/20 21:53:03 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/21 15:09:48 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void *odd_exec(void *data)
 		if (carrier->con.num_of_eat != -1 &&
 				num_eating >= carrier->con.num_of_eat)
 			return (0);
-		sleeping_and_thinking(carrier);
+		if (sleeping_and_thinking(carrier) == -1)
+			exit(0);
 	}
 	return (0);
 }
@@ -58,12 +59,13 @@ void *even_exec(void *data)
 			pthread_mutex_unlock(carrier->left);
 			exit(0);
 		}
-		pthread_mutex_unlock(carrier->left);
 		pthread_mutex_unlock(carrier->right);
+		pthread_mutex_unlock(carrier->left);
 		if (carrier->con.num_of_eat != -1 &&
 				num_eating >= carrier->con.num_of_eat)
 			return (0);
-		sleeping_and_thinking(carrier);
+		if (sleeping_and_thinking(carrier) == -1)
+			exit(0);
 	}
 	return (0);
 }

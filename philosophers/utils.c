@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/20 16:44:47 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/21 23:02:01 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,25 @@ int init_carrier(t_carry **carrier, t_arg con)
 			(*carrier)[i].right = &mutex_lock[0];
 		else
 			(*carrier)[i].right = &mutex_lock[i + 1];
+	}
+	return (0);
+}
+
+int waiting(t_carry *carrier, struct timeval start, long wait_time)
+{
+	struct timeval time;
+
+	while (1)
+	{
+		gettimeofday(&time, NULL);
+		if (((time.tv_sec - carrier->before.tv_sec) * 1000000 + time.tv_usec - carrier->before.tv_usec) / 1000 > carrier->con.time_to_die)
+		{
+			printf("%ldms %d died\n", ((time.tv_sec - carrier->before.tv_sec) * 1000000 + time.tv_usec - carrier->before.tv_usec) / 1000, carrier->philo);
+			return (-1);
+		}
+		if ((time.tv_sec - start.tv_sec) * 1000000 + time.tv_usec - start.tv_usec > wait_time)
+			break ;
+		usleep(20);
 	}
 	return (0);
 }
