@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/21 22:48:24 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/22 14:09:56 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_arg
 typedef struct s_carry
 {
 	int philo;
+	int *permit;
 	struct timeval before;
 	pthread_mutex_t *left;
 	pthread_mutex_t *right;
@@ -40,10 +41,13 @@ typedef struct s_carry
 } t_carry;
 
 int input_arg(t_arg *con, int argc, char **argv);
-int init_carrier(t_carry **carrier, t_arg con);
+int init_carrier(t_carry **carrier, t_arg con, int *permit);
 int waiting(t_carry *carrier, struct timeval time, long wait_time);
+int block(t_carry *carrier);
 
 int eating(t_carry *carrier, int *num_eating);
 int sleeping_and_thinking(t_carry *carrier);
+int pick_up(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2);
+void put_down(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2);
 
 #endif

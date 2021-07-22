@@ -6,11 +6,41 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 18:57:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/21 23:05:25 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/22 14:47:56 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int pick_up(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2)
+{
+	pthread_mutex_lock(lock1);
+	pthread_mutex_lock(lock2);
+	if (carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] == 1
+		&& carrier->permit[carrier->philo % carrier->con.num_of_philo] == 1)
+	{
+		carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] = 0;
+		carrier->permit[carrier->philo % carrier->con.num_of_philo] = 0;
+		pthread_mutex_unlock(lock1);
+		pthread_mutex_unlock(lock2);
+		return (0);
+	}
+	pthread_mutex_unlock(lock1);
+	pthread_mutex_unlock(lock2);
+	if (block(carrier) == -1)
+		return (-1);
+	return (0);
+}
+
+void put_down(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2)
+{
+	pthread_mutex_lock(lock1);
+	pthread_mutex_lock(lock2);
+	carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] = 1;
+	carrier->permit[carrier->philo % carrier->con.num_of_philo] = 1;
+	pthread_mutex_unlock(lock1);
+	pthread_mutex_unlock(lock2);
+}
 
 int eating(t_carry *carrier, int *num_eating)
 {
