@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/22 23:34:34 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/26 14:50:10 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ void *odd_exec(void *data)
 	int num_eating;
 
 	carrier = (t_carry *)data;
-	carrier->before = carrier->con.start;
+	carrier->before[carrier->philo] = carrier->con.start;
 	num_eating = 0;
+//	waiting(carrier, carrier->con.start, 1000 * carrier->con.time_to_eat);
+//	if (carrier->con.num_of_philo % 2 == 1 && carrier->philo == carrier->con.num_of_philo - 1)
+//		waiting(carrier, carrier->con.start, 2000 * carrier->con.time_to_eat);
 	while (1)
 	{
 		if (pick_up(carrier, carrier->right, carrier->left) == -1)
@@ -32,6 +35,9 @@ void *odd_exec(void *data)
 			return (0);
 		if (sleeping_and_thinking(carrier) == -1)
 			exit(0);
+//		usleep(1000);
+//		if (carrier->con.time_to_eat > carrier->con.time_to_sleep)
+//			usleep(1000 * (carrier->con.time_to_eat - carrier->con.time_to_sleep));
 	}
 	return (0);
 }
@@ -42,7 +48,7 @@ void *even_exec(void *data)
 	int num_eating;
 
 	carrier = (t_carry *)data;
-	carrier->before = carrier->con.start;
+	carrier->before[carrier->philo] = carrier->con.start;
 	num_eating = 0;
 	while (1)
 	{
@@ -56,12 +62,16 @@ void *even_exec(void *data)
 			return (0);
 		if (sleeping_and_thinking(carrier) == -1)
 			exit(0);
+//		usleep(1000);
+//		if (carrier->con.time_to_eat > carrier->con.time_to_sleep)
+//			usleep(1000 * (carrier->con.time_to_eat - carrier->con.time_to_sleep));
 	}
 	return (0);
 }
 
 int main(int argc, char **argv)
 {
+	struct timeval *time;
 	t_carry *carrier;
 	t_arg con;
 	int *permit;
@@ -72,10 +82,15 @@ int main(int argc, char **argv)
 		return (-1);
 	if (!(permit = malloc(sizeof(int) * con.num_of_philo)))
 		return (-1);
+	if (!(time = malloc(sizeof(struct timeval) * con.num_of_philo)))
+		return (-1);
 	i = -1;
 	while (++i < con.num_of_philo)
 		permit[i] = 1;
-	if (init_carrier(&carrier, con, permit) == -1)
+	i = -1;
+	while (++i < con.num_of_philo)
+		time[i] = con.start;
+	if (init_carrier(&carrier, con, permit, time) == -1)
 		exit(-1);
 	i = -1;
 	while (++i < con.num_of_philo)

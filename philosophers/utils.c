@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/22 14:51:47 by djeon            ###   ########.fr       */
+/*   Updated: 2021/07/24 20:33:43 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int input_arg(t_arg *con, int argc, char **argv)
 	return (0);
 }
 
-int init_carrier(t_carry **carrier, t_arg con, int *permit)
+int init_carrier(t_carry **carrier, t_arg con, int *permit, struct timeval *time)
 {
 	pthread_mutex_t *mutex_lock;
 	int i;
@@ -78,6 +78,7 @@ int init_carrier(t_carry **carrier, t_arg con, int *permit)
 	i = -1;
 	while (++i < con.num_of_philo)
 	{
+		(*carrier)[i].before = time;
 		(*carrier)[i].permit = permit;
 		(*carrier)[i].philo = i;
 		(*carrier)[i].con = con;
@@ -97,8 +98,9 @@ int waiting(t_carry *carrier, struct timeval start, long wait_time)
 	while (1)
 	{
 		gettimeofday(&time, NULL);
-		if (((time.tv_sec - carrier->before.tv_sec) * 1000000 + time.tv_usec - carrier->before.tv_usec) / 1000 > carrier->con.time_to_die)
+		if (((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000 > carrier->con.time_to_die)
 		{
+			printf("%d : %ld\n", carrier->philo, ((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000);
 			printf("%ldms %d died\n", ((time.tv_sec - carrier->con.start.tv_sec) * 1000000 + time.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
 			return (-1);
 		}
@@ -118,8 +120,9 @@ int block(t_carry *carrier)
 	{
 		usleep(20);
 		gettimeofday(&time, NULL);
-		if (((time.tv_sec - carrier->before.tv_sec) * 1000000 + time.tv_usec - carrier->before.tv_usec) / 1000 > carrier->con.time_to_die)
+		if (((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000 > carrier->con.time_to_die)
 		{
+			printf("%d : %ld\n", carrier->philo, ((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000);
 			printf("%ldms %d died\n", ((time.tv_sec - carrier->con.start.tv_sec) * 1000000 + time.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
 			return (-1);
 		}
