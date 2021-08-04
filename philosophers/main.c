@@ -6,104 +6,96 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/26 14:50:10 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/04 20:06:25 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void *odd_exec(void *data)
+void *monitor(void *data)
 {
+	struct timeval cur;
 	t_carry *carrier;
-	int num_eating;
+	long time;
 
 	carrier = (t_carry *)data;
-	carrier->before[carrier->philo] = carrier->con.start;
-	num_eating = 0;
-//	waiting(carrier, carrier->con.start, 1000 * carrier->con.time_to_eat);
-//	if (carrier->con.num_of_philo % 2 == 1 && carrier->philo == carrier->con.num_of_philo - 1)
-//		waiting(carrier, carrier->con.start, 2000 * carrier->con.time_to_eat);
 	while (1)
 	{
-		if (pick_up(carrier, carrier->right, carrier->left) == -1)
-			exit(0);
-		if (eating(carrier, &num_eating) == -1)
-			exit(0);
-		put_down(carrier, carrier->right, carrier->left);
-		if (carrier->con.num_of_eat != -1 &&
-				num_eating >= carrier->con.num_of_eat)
-			return (0);
-		if (sleeping_and_thinking(carrier) == -1)
-			exit(0);
-//		usleep(1000);
-//		if (carrier->con.time_to_eat > carrier->con.time_to_sleep)
-//			usleep(1000 * (carrier->con.time_to_eat - carrier->con.time_to_sleep));
+		if (carrier->con.num_of_eat != -1 && carrier->cur_num_eating >=
+				carrier->con.num_of_eat)
+			break ;
+		gettimeofday(&cur, NULL);
+		time = ((cur.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + cur.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000;
+		if (time > carrier->con.time_to_die)
+		{
+			pthread_mutex_lock(&carrier->arg_dead);
+			if (*(carrier->dead) == 0)
+			{
+				*(carrier->dead) = 1;
+				pthread_mutex_unlock(&carrier->fork[carrier->philo]);
+				printf("%ldms %d died\n", time, carrier->philo);
+			}
+			pthread_mutex_unlock(&carrier->arg_dead);
+			return (NULL);
+		}
+		waiting(carrier, cur, 1000);
 	}
-	return (0);
+	return (NULL);
 }
 
-void *even_exec(void *data)
+void *exec(void *data)
 {
 	t_carry *carrier;
-	int num_eating;
+	pthread_t monitor_id;
 
 	carrier = (t_carry *)data;
 	carrier->before[carrier->philo] = carrier->con.start;
-	num_eating = 0;
+	pthread_create(&monitor_id, NULL, monitor, carrier);
 	while (1)
 	{
-		if (pick_up(carrier, carrier->left, carrier->right) == -1)
-			exit(0);
-		if (eating(carrier, &num_eating) == -1)
-			exit(0);
-		put_down(carrier, carrier->left, carrier->right);
-		if (carrier->con.num_of_eat != -1 &&
-				num_eating >= carrier->con.num_of_eat)
-			return (0);
+		if (pick_up(carrier, &carrier->fork[carrier->philo], &carrier->fork[(carrier->philo + 1) % carrier->con.num_of_philo]) == -1)
+			return (NULL);
+		if (eating(carrier, &carrier->cur_num_eating) == -1)
+			return (NULL);
+		put_down(carrier, &carrier->fork[carrier->philo], &carrier->fork[(carrier->philo + 1) % carrier->con.num_of_philo]);
 		if (sleeping_and_thinking(carrier) == -1)
-			exit(0);
-//		usleep(1000);
-//		if (carrier->con.time_to_eat > carrier->con.time_to_sleep)
-//			usleep(1000 * (carrier->con.time_to_eat - carrier->con.time_to_sleep));
+			return (NULL);
 	}
-	return (0);
+	pthread_join(monitor_id, NULL);
+	return (NULL);
 }
 
 int main(int argc, char **argv)
 {
-	struct timeval *time;
 	t_carry *carrier;
 	t_arg con;
 	int *permit;
 	int i;
 	int status;
 
+	// input string to int
 	if (input_arg(&con, argc, argv) == -1)
 		return (-1);
+	// check the time of eating
 	if (!(permit = malloc(sizeof(int) * con.num_of_philo)))
 		return (-1);
-	if (!(time = malloc(sizeof(struct timeval) * con.num_of_philo)))
-		return (-1);
+	// init carrier per philo
+	if (init_carrier(&carrier, con, permit) == -1)
+		exit(-1);
+	// init permit
 	i = -1;
 	while (++i < con.num_of_philo)
 		permit[i] = 1;
-	i = -1;
-	while (++i < con.num_of_philo)
-		time[i] = con.start;
-	if (init_carrier(&carrier, con, permit, time) == -1)
-		exit(-1);
+	// start routine per philo
 	i = -1;
 	while (++i < con.num_of_philo)
 	{
-		if (i % 2 == 0)
-			status = pthread_create(&carrier[i].p_thread, NULL, even_exec,
-					&carrier[i]);
-		else
-			status = pthread_create(&carrier[i].p_thread, NULL, odd_exec,
-					&carrier[i]);
+		status = pthread_create(&carrier[i].p_thread, NULL, exec,
+				&carrier[i]);
 		if (status < 0)
 			exit(-1);
 	}
+	// free philo
 	i = -1;
 	while (++i < con.num_of_philo)
 		pthread_join(carrier[i].p_thread, (void *)&status);

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/24 20:33:43 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/04 19:34:52 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,48 +63,52 @@ int input_arg(t_arg *con, int argc, char **argv)
 	return (0);
 }
 
-int init_carrier(t_carry **carrier, t_arg con, int *permit, struct timeval *time)
+int init_carrier(t_carry **carrier, t_arg con, int *permit)
 {
-	pthread_mutex_t *mutex_lock;
+	pthread_mutex_t *fork;
+	pthread_mutex_t dead_lock;
+	struct timeval *time;
 	int i;
+	int *dead;
 
+	if (!(dead = malloc(sizeof(int))))
+		return (-1);
 	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
 		return (-1);
-	if (!(mutex_lock = malloc(sizeof(pthread_mutex_t) * con.num_of_philo)))
+	if (!(fork = malloc(sizeof(pthread_mutex_t) * con.num_of_philo)))
 		return (-1);
+	if (!(time = malloc(sizeof(struct timeval) * con.num_of_philo)))
+		return (-1);
+	*dead = 0;
 	i = -1;
 	while (++i < con.num_of_philo)
-		pthread_mutex_init(&mutex_lock[i], NULL);
+		pthread_mutex_init(&fork[i], NULL);
+	pthread_mutex_init(&dead_lock, NULL);
 	i = -1;
 	while (++i < con.num_of_philo)
 	{
-		(*carrier)[i].before = time;
-		(*carrier)[i].permit = permit;
 		(*carrier)[i].philo = i;
+		(*carrier)[i].cur_num_eating = 0;
+		(*carrier)[i].dead = dead;
+		(*carrier)[i].permit = permit;
+		(*carrier)[i].before = time;
+		(*carrier)[i].fork = fork;
+		(*carrier)[i].arg_dead = dead_lock;
 		(*carrier)[i].con = con;
-		(*carrier)[i].left = &mutex_lock[i];
-		if (i + 1 == con.num_of_philo)
-			(*carrier)[i].right = &mutex_lock[0];
-		else
-			(*carrier)[i].right = &mutex_lock[i + 1];
 	}
 	return (0);
 }
 
 int waiting(t_carry *carrier, struct timeval start, long wait_time)
 {
-	struct timeval time;
+	struct timeval cur;
 
 	while (1)
 	{
-		gettimeofday(&time, NULL);
-		if (((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000 > carrier->con.time_to_die)
-		{
-			printf("%d : %ld\n", carrier->philo, ((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000);
-			printf("%ldms %d died\n", ((time.tv_sec - carrier->con.start.tv_sec) * 1000000 + time.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
+		if (*(carrier->dead) == 1)
 			return (-1);
-		}
-		if ((time.tv_sec - start.tv_sec) * 1000000 + time.tv_usec - start.tv_usec > wait_time)
+		gettimeofday(&cur, NULL);
+		if ((cur.tv_sec - start.tv_sec) * 1000000 + cur.tv_usec - start.tv_usec > wait_time)
 			break ;
 		usleep(20);
 	}
@@ -113,19 +117,12 @@ int waiting(t_carry *carrier, struct timeval start, long wait_time)
 
 int block(t_carry *carrier)
 {
-	struct timeval time;
-
 	while (carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] == 0
 			|| carrier->permit[carrier->philo % carrier->con.num_of_philo] == 0)
 	{
-		usleep(20);
-		gettimeofday(&time, NULL);
-		if (((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000 > carrier->con.time_to_die)
-		{
-			printf("%d : %ld\n", carrier->philo, ((time.tv_sec - carrier->before[carrier->philo].tv_sec) * 1000000 + time.tv_usec - carrier->before[carrier->philo].tv_usec) / 1000);
-			printf("%ldms %d died\n", ((time.tv_sec - carrier->con.start.tv_sec) * 1000000 + time.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
+		if (*(carrier->dead) == 1)
 			return (-1);
-		}
+		usleep(20);
 	}
 	carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] = 0;
 	carrier->permit[carrier->philo % carrier->con.num_of_philo] = 0;

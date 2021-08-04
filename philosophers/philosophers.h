@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/24 19:58:39 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/04 12:05:40 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,19 @@ typedef struct s_arg
 typedef struct s_carry
 {
 	int philo;
+	int cur_num_eating;
+	int *dead;
 	int *permit;
 	struct timeval time;
 	struct timeval *before;
-	pthread_mutex_t *left;
-	pthread_mutex_t *right;
+	pthread_mutex_t *fork;
+	pthread_mutex_t arg_dead;
 	pthread_t p_thread;
 	t_arg con; 
 } t_carry;
 
 int input_arg(t_arg *con, int argc, char **argv);
-int init_carrier(t_carry **carrier, t_arg con, int *permit, struct timeval *time);
+int init_carrier(t_carry **carrier, t_arg con, int *permit);
 int waiting(t_carry *carrier, struct timeval time, long wait_time);
 int block(t_carry *carrier);
 
