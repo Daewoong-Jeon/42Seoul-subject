@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/04 19:34:52 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/05 19:22:53 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int init_carrier(t_carry **carrier, t_arg con, int *permit)
 	return (0);
 }
 
-int waiting(t_carry *carrier, struct timeval start, long wait_time)
+int waiting(t_carry *carrier, struct timeval start, long wait_time, int sub)
 {
 	struct timeval cur;
 
@@ -108,9 +108,9 @@ int waiting(t_carry *carrier, struct timeval start, long wait_time)
 		if (*(carrier->dead) == 1)
 			return (-1);
 		gettimeofday(&cur, NULL);
-		if ((cur.tv_sec - start.tv_sec) * 1000000 + cur.tv_usec - start.tv_usec > wait_time)
+		if ((cur.tv_sec - start.tv_sec) * 1000000 + cur.tv_usec - start.tv_usec > wait_time - sub)
 			break ;
-		usleep(20);
+		usleep(100);
 	}
 	return (0);
 }

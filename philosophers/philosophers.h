@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/04 12:05:40 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/05 19:22:12 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_carry
 	int cur_num_eating;
 	int *dead;
 	int *permit;
-	struct timeval time;
+	int sub;
 	struct timeval *before;
 	pthread_mutex_t *fork;
 	pthread_mutex_t arg_dead;
@@ -45,7 +45,7 @@ typedef struct s_carry
 
 int input_arg(t_arg *con, int argc, char **argv);
 int init_carrier(t_carry **carrier, t_arg con, int *permit);
-int waiting(t_carry *carrier, struct timeval time, long wait_time);
+int waiting(t_carry *carrier, struct timeval time, long wait_time, int sub);
 int block(t_carry *carrier);
 
 int eating(t_carry *carrier, int *num_eating);

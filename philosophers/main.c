@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/04 20:06:25 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/05 19:24:03 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void *monitor(void *data)
 			{
 				*(carrier->dead) = 1;
 				pthread_mutex_unlock(&carrier->fork[carrier->philo]);
-				printf("%ldms %d died\n", time, carrier->philo);
+				printf("%ldms %d died\n", ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000 + cur.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
 			}
 			pthread_mutex_unlock(&carrier->arg_dead);
 			return (NULL);
 		}
-		waiting(carrier, cur, 1000);
+		waiting(carrier, cur, 1000, 0);
 	}
 	return (NULL);
 }
@@ -51,6 +51,8 @@ void *exec(void *data)
 	carrier = (t_carry *)data;
 	carrier->before[carrier->philo] = carrier->con.start;
 	pthread_create(&monitor_id, NULL, monitor, carrier);
+	if (carrier->philo % 2 == 0)
+		waiting(carrier, carrier->con.start, carrier->con.time_to_eat * 1000, 0);
 	while (1)
 	{
 		if (pick_up(carrier, &carrier->fork[carrier->philo], &carrier->fork[(carrier->philo + 1) % carrier->con.num_of_philo]) == -1)
@@ -60,6 +62,7 @@ void *exec(void *data)
 		put_down(carrier, &carrier->fork[carrier->philo], &carrier->fork[(carrier->philo + 1) % carrier->con.num_of_philo]);
 		if (sleeping_and_thinking(carrier) == -1)
 			return (NULL);
+//		usleep(10000);
 	}
 	pthread_join(monitor_id, NULL);
 	return (NULL);
