@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/05 19:24:03 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/06 13:46:08 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void *exec(void *data)
 		put_down(carrier, &carrier->fork[carrier->philo], &carrier->fork[(carrier->philo + 1) % carrier->con.num_of_philo]);
 		if (sleeping_and_thinking(carrier) == -1)
 			return (NULL);
-//		usleep(10000);
 	}
 	pthread_join(monitor_id, NULL);
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/05 19:22:53 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/06 11:53:40 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int block(t_carry *carrier)
 	{
 		if (*(carrier->dead) == 1)
 			return (-1);
-		usleep(20);
+		usleep(100);
 	}
 	carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] = 0;
 	carrier->permit[carrier->philo % carrier->con.num_of_philo] = 0;

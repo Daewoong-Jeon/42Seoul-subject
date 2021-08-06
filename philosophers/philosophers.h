@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/05 19:22:12 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/06 12:24:08 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_carry
 	int *permit;
 	int sub;
 	struct timeval *before;
+	struct timeval start;
+	struct timeval end;
 	pthread_mutex_t *fork;
 	pthread_mutex_t arg_dead;
 	pthread_t p_thread;
