@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/07/26 10:27:22 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/06 21:32:09 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <pthread.h>
+# include <signal.h>
 
 typedef struct s_arg
 {
@@ -32,6 +34,10 @@ typedef struct s_arg
 typedef struct s_carry
 {
 	int philo;
+	int *dead; //
+	int cur_num_eating; //
+	struct timeval before; //
+	sem_t *arg_dead; //
 	sem_t *sem;
 	t_arg con;
 } t_carry;
