@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/06 21:32:09 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/07 19:10:56 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ typedef struct s_arg
 typedef struct s_carry
 {
 	int philo;
-	int *dead; //
-	int cur_num_eating; //
-	struct timeval before; //
-	sem_t *arg_dead; //
+	int cur_num_eating;
+	struct timeval before;
+	pid_t pid;
+	sem_t *arg_dead;
 	sem_t *sem;
 	t_arg con;
 } t_carry;
 
+//void free_all(t_carry *carrier);
 int input_arg(t_arg *con, int argc, char **argv);
 int init_carrier(t_carry **carrier, t_arg con);
 

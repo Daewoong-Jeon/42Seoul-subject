@@ -6,11 +6,17 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:44 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/06 21:44:00 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/07 19:10:58 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
+
+//void free_all(t_carry *carrier)
+//{
+//	sem_unlink("/semaphore");
+//	sem_unlink("/semaphore2");
+//}
 
 int ft_atoi_v2(char *str)
 {
@@ -68,10 +74,8 @@ int init_carrier(t_carry **carrier, t_arg con)
 	sem_t *sem;
 	sem_t *arg_dead;
 	int i;
-	int dead;
 
 	i = -1;
-	dead = 0;
 	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
 		return (-1);
 	sem = sem_open("/semaphore", O_CREAT | O_EXCL, 0644, con.num_of_philo / 2);
@@ -91,7 +95,6 @@ int init_carrier(t_carry **carrier, t_arg con)
 	while (++i < con.num_of_philo)
 	{
 		(*carrier)[i].philo = i;
-		(*carrier)[i].dead = &dead;
 		(*carrier)[i].cur_num_eating = 0;
 		(*carrier)[i].arg_dead = arg_dead;
 		(*carrier)[i].sem = sem;
