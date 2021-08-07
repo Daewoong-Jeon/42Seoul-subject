@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/06 12:24:08 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/07 21:58:08 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int init_carrier(t_carry **carrier, t_arg con, int *permit);
 int waiting(t_carry *carrier, struct timeval time, long wait_time, int sub);
 int block(t_carry *carrier);
 
-int eating(t_carry *carrier, int *num_eating);
+int eating(t_carry *carrier);
 int sleeping_and_thinking(t_carry *carrier);
 int pick_up(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2);
 void put_down(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2);

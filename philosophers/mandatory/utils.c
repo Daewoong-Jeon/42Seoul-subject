@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/06 11:53:40 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/07 22:07:17 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int waiting(t_carry *carrier, struct timeval start, long wait_time, int sub)
 		if (*(carrier->dead) == 1)
 			return (-1);
 		gettimeofday(&cur, NULL);
-		if ((cur.tv_sec - start.tv_sec) * 1000000 + cur.tv_usec - start.tv_usec > wait_time - sub)
+		if ((cur.tv_sec - start.tv_sec) * 1000000 + cur.tv_usec - start.tv_usec
+				> wait_time - sub)
 			break ;
 		usleep(100);
 	}
@@ -117,14 +118,18 @@ int waiting(t_carry *carrier, struct timeval start, long wait_time, int sub)
 
 int block(t_carry *carrier)
 {
-	while (carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] == 0
-			|| carrier->permit[carrier->philo % carrier->con.num_of_philo] == 0)
+	int right;
+	int left;
+
+	right = (carrier->philo + 1) % carrier->con.num_of_philo;
+	left = carrier->philo % carrier->con.num_of_philo;
+	while (carrier->permit[right] == 0 || carrier->permit[left] == 0)
 	{
 		if (*(carrier->dead) == 1)
 			return (-1);
 		usleep(100);
 	}
-	carrier->permit[(carrier->philo + 1) % carrier->con.num_of_philo] = 0;
-	carrier->permit[carrier->philo % carrier->con.num_of_philo] = 0;
+	carrier->permit[right] = 0;
+	carrier->permit[left] = 0;
 	return (0);
 }
