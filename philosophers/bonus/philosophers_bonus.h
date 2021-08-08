@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/07 19:10:56 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/08 18:00:06 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,19 @@ typedef struct s_carry
 	pid_t pid;
 	sem_t *arg_dead;
 	sem_t *sem;
+	sem_t *msg;
 	t_arg con;
 } t_carry;
 
-//void free_all(t_carry *carrier);
-int input_arg(t_arg *con, int argc, char **argv);
-int init_carrier(t_carry **carrier, t_arg con);
+long get_gap_of_time(struct timeval a, struct timeval b);
+void handle_signal(int signo);
+void free_all(void);
+int ft_atoi_v2(char *str);
+
+void eating(t_carry *carrier);
+void sleeping_and_thinking(t_carry *carrier);
+
+void monitor_process(t_carry *carrier);
+void *monitor_thread(void *data);
 
 #endif

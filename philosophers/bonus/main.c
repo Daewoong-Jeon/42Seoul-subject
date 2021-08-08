@@ -6,119 +6,82 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:41:27 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/07 19:11:05 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/08 17:36:46 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
 
-void handle_signal(int signo)
+int input_arg(t_arg *con, int argc, char **argv)
 {
-	if (signo == SIGINT)
+	if (argc < 5 || argc > 6)
+		return (-1);
+	if ((con->num_of_philo = ft_atoi_v2(argv[1])) == -1)
+		return (-1);
+	if ((con->time_to_die = ft_atoi_v2(argv[2])) == -1)
+		return (-1);
+	if ((con->time_to_eat = ft_atoi_v2(argv[3])) == -1)
+		return (-1);
+	if ((con->time_to_sleep = ft_atoi_v2(argv[4])) == -1)
+		return (-1);
+	if (argv[5] == NULL)
+		con->num_of_eat = -1;
+	else
 	{
-		sem_unlink("/semaphore");
-		sem_unlink("/semaphore2");
-		exit(0);
+		if ((con->num_of_eat = ft_atoi_v2(argv[5])) == -1)
+			return (-1);
 	}
+	gettimeofday(&con->start, NULL);
+	return (0);
 }
 
-void monitor_process(t_carry *carrier)
+int init_carrier(t_carry **carrier, t_arg con)
 {
+	sem_t *sem;
+	sem_t *arg_dead;
+	sem_t *msg;
 	int i;
-	int status;
-	int full;
 
-	full = 0;
-	while (1)
+	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
+		return (-1);
+	sem = sem_open("/semaphore", O_CREAT | O_EXCL, 0644, con.num_of_philo / 2);
+	arg_dead = sem_open("/semaphore2", O_CREAT | O_EXCL, 0644, 1);
+	msg = sem_open("/semaphore3", O_CREAT | O_EXCL, 0644, 1);
+	if (sem == SEM_FAILED || arg_dead == SEM_FAILED || msg == SEM_FAILED)
+		return (-1);
+	i = -1;
+	while (++i < con.num_of_philo)
 	{
-		i = -1;
-		while (++i < carrier[0].con.num_of_philo)
-		{
-			status = -1;
-			waitpid(carrier[i].pid, &status, 0);
-			if (status == 0)
-				full++;
-			if (full == carrier[0].con.num_of_eat)
-				return ;
-			if ((status >> 8) == 1)
-				break ;
-			i++;
-		}
-		if ((status >> 8) == 1)
-		{
-			i = -1;
-			while (++i < carrier[0].con.num_of_philo)
-				kill(carrier[i].pid, SIGKILL);
-			break ;
-		}
+		(*carrier)[i].philo = i;
+		(*carrier)[i].cur_num_eating = 0;
+		(*carrier)[i].arg_dead = arg_dead;
+		(*carrier)[i].sem = sem;
+		(*carrier)[i].msg = msg;
+		(*carrier)[i].con = con;
 	}
-}
-
-void *monitor(void *data)
-{
-	struct timeval cur;
-	t_carry *carrier;
-	long time;
-
-	carrier = (t_carry *)data;
-	while (1)
-	{
-		if (carrier->con.num_of_eat != -1 && carrier->cur_num_eating >=
-				carrier->con.num_of_eat)
-			exit(0);
-		gettimeofday(&cur, NULL);
-		time = ((cur.tv_sec - carrier->before.tv_sec) * 1000000 + cur.tv_usec - carrier->before.tv_usec) / 1000;
-		if (time > carrier->con.time_to_die)
-		{
-			sem_wait(carrier->arg_dead);
-			printf("%ldms %d died\n", ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000 + cur.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
-			exit(1);
-			sem_post(carrier->arg_dead);
-		}
-		usleep(100);
-	}
-	return (NULL);
+	return (0);
 }
 
 void exec(t_carry *carrier)
 {
 	pthread_t monitor_id;
-	struct timeval cur;
 
-	pthread_create(&monitor_id, NULL, monitor, carrier);
+	pthread_create(&monitor_id, NULL, monitor_thread, carrier);
 	signal(SIGINT, handle_signal);
 	while (1)
 	{
-		sem_wait(carrier->sem);
-		gettimeofday(&cur, NULL);
-		printf("%ldms %d has taken a fork\n", ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000 + cur.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
-		gettimeofday(&cur, NULL);
-		carrier->before = cur;
-		carrier->cur_num_eating++;
-		printf("%ldms %d is eating\n", ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000 + cur.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
-		usleep(carrier->con.time_to_eat * 1000);
-		sem_post(carrier->sem);
-		gettimeofday(&cur, NULL);
-		printf("%ldms %d is sleeping\n", ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000 + cur.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
-		usleep(carrier->con.time_to_sleep * 1000);
-		gettimeofday(&cur, NULL);
-		printf("%ldms %d is thinking\n", ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000 + cur.tv_usec - carrier->con.start.tv_usec) / 1000, carrier->philo);
+		eating(carrier);
+		sleeping_and_thinking(carrier);
 	}
 	pthread_join(monitor_id, NULL);
 }
 
-int main(int argc, char **argv)
+int create_process(t_carry *carrier, t_arg con)
 {
 	struct timeval start;
-	t_carry *carrier;
-	t_arg con;
 	int i;
 
 	i = -1;
-	if (input_arg(&con, argc, argv) == -1)
-		return (-1);
-	if (init_carrier(&carrier, con) == -1)
-		return (-1);
 	gettimeofday(&start, NULL);
 	while (++i < con.num_of_philo)
 	{
@@ -133,6 +96,22 @@ int main(int argc, char **argv)
 	}
 	if (i == con.num_of_philo)
 		monitor_process(carrier);
-//	free_all(carrier);
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+	t_carry *carrier;
+	t_arg con;
+
+	if (input_arg(&con, argc, argv) == -1)
+		return (printf("input error\n"));
+	if (init_carrier(&carrier, con) == -1)
+	{
+		free_all();
+		return (printf("init failed\n"));
+	}
+	if (create_process(carrier, con) == -1)
+		return (printf("failed creating process\n"));
 	return (0);
 }

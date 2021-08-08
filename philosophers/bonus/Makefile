@@ -6,7 +6,7 @@
 #    By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/19 19:34:17 by djeon             #+#    #+#              #
-#    Updated: 2021/07/25 17:49:04 by djeon            ###   ########.fr        #
+#    Updated: 2021/08/08 17:37:14 by djeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = gcc
 HEADER = philosophers.h
 CFLAGS = -Wall -Wextra -Werror
 NAME = philosophers
-SRC = main.c utils.c
+SRC = main.c philo_exec.c monitor.c utils.c
 OBJECTS = $(SRC:.c=.o)
 
 all : $(NAME)

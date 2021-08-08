@@ -6,17 +6,32 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:44 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/07 19:10:58 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/08 17:59:35 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
 
-//void free_all(t_carry *carrier)
-//{
-//	sem_unlink("/semaphore");
-//	sem_unlink("/semaphore2");
-//}
+long get_gap_of_time(struct timeval a, struct timeval b)
+{
+	return (((a.tv_sec - b.tv_sec) * 1000000 + a.tv_usec - b.tv_usec) / 1000);
+}
+
+void handle_signal(int signo)
+{
+	if (signo == SIGINT)
+	{
+		free_all();
+		exit(0);
+	}
+}
+
+void free_all(void)
+{
+	sem_unlink("/semaphore");
+	sem_unlink("/semaphore2");
+	sem_unlink("/semaphore3");
+}
 
 int ft_atoi_v2(char *str)
 {
@@ -41,64 +56,4 @@ int ft_atoi_v2(char *str)
 		}
 	}
 	return (result);
-}
-
-int input_arg(t_arg *con, int argc, char **argv)
-{
-	if (argc < 5 || argc > 6)
-	{
-		printf("error\n");
-		return (-1);
-	}
-	if ((con->num_of_philo = ft_atoi_v2(argv[1])) == -1)
-		return (-1);
-	if ((con->time_to_die = ft_atoi_v2(argv[2])) == -1)
-		return (-1);
-	if ((con->time_to_eat = ft_atoi_v2(argv[3])) == -1)
-		return (-1);
-	if ((con->time_to_sleep = ft_atoi_v2(argv[4])) == -1)
-		return (-1);
-	if (argv[5] == NULL)
-		con->num_of_eat = -1;
-	else
-	{
-		if ((con->num_of_eat = ft_atoi_v2(argv[5])) == -1)
-			return (-1);
-	}
-	gettimeofday(&con->start, NULL);
-	return (0);
-}
-
-int init_carrier(t_carry **carrier, t_arg con)
-{
-	sem_t *sem;
-	sem_t *arg_dead;
-	int i;
-
-	i = -1;
-	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
-		return (-1);
-	sem = sem_open("/semaphore", O_CREAT | O_EXCL, 0644, con.num_of_philo / 2);
-	if (sem == SEM_FAILED)
-	{
-		sem_unlink("/semaphore");
-		printf("open failed\n");
-		return (-1);
-	}
-	arg_dead = sem_open("/semaphore2", O_CREAT | O_EXCL, 0644, 1);
-	if (sem == SEM_FAILED)
-	{
-		sem_unlink("/semaphore2");
-		printf("open failed\n");
-		return (-1);
-	}
-	while (++i < con.num_of_philo)
-	{
-		(*carrier)[i].philo = i;
-		(*carrier)[i].cur_num_eating = 0;
-		(*carrier)[i].arg_dead = arg_dead;
-		(*carrier)[i].sem = sem;
-		(*carrier)[i].con = con;
-	}
-	return (0);
 }
