@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 18:57:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/07 22:01:12 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/08 20:32:25 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,19 @@ int eating(t_carry *carrier)
 	long cur_time;
 
 	gettimeofday(&cur, NULL);
-	cur_time = ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000
-			+ cur.tv_usec - carrier->con.start.tv_usec) / 1000;
+	cur_time = get_gap_of_time(cur, carrier->con.start);
 	if (*(carrier->dead) == 1)
 		return (-1);
 	printf("%ldms %d has taken a fork\n", cur_time, carrier->philo);
 
 	gettimeofday(&cur, NULL);
-	cur_time = ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000
-			+ cur.tv_usec - carrier->con.start.tv_usec) / 1000;
+	cur_time = get_gap_of_time(cur, carrier->con.start);
 	if (*(carrier->dead) == 1)
 		return (-1);
-	carrier->before[carrier->philo] = cur;
+	carrier->last_eat = cur;
+	(carrier->cur_num_eating)++;
 	printf("%ldms %d is eating\n", cur_time, carrier->philo);
-	if (waiting(carrier, cur, carrier->con.time_to_eat * 1000,
-				carrier->sub * 1000) == -1)
+	if (waiting(carrier, cur, carrier->con.time_to_eat) == -1)
 		return (-1);
 
 	(carrier->cur_num_eating)++;
@@ -75,18 +73,15 @@ int sleeping_and_thinking(t_carry *carrier)
 	long cur_time;
 
 	gettimeofday(&cur, NULL);
-	cur_time = ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000
-			+ cur.tv_usec - carrier->con.start.tv_usec) / 1000;
-	if (*(carrier->dead) == 1)
+	cur_time = get_gap_of_time(cur, carrier->con.start);
+	if (*(carrier->dead) == 1 || carrier->out == 1)
 		return (-1);
 	printf("%ldms %d is sleeping\n", cur_time, carrier->philo);
-	if (waiting(carrier, cur, carrier->con.time_to_sleep * 1000,
-				carrier->sub * 1000) == -1)
+	if (waiting(carrier, cur, carrier->con.time_to_sleep) == -1)
 		return (-1);
 
 	gettimeofday(&cur, NULL);
-	cur_time = ((cur.tv_sec - carrier->con.start.tv_sec) * 1000000
-			+ cur.tv_usec - carrier->con.start.tv_usec) / 1000;
+	cur_time = get_gap_of_time(cur, carrier->con.start);
 	if (*(carrier->dead) == 1)
 		return (-1);
 	printf("%ldms %d is thinking\n", cur_time, carrier->philo);
