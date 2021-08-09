@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/08 20:30:05 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 12:09:38 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ int create_thread(t_carry *carrier, t_arg con)
 		status = pthread_create(&carrier[i].p_thread, NULL, exec,
 				&carrier[i]);
 		if (status < 0)
+		{
+			free_all(carrier, con);
 			return (-1);
+		}
 	}
 	return (0);
 }
@@ -60,8 +63,6 @@ int main(int argc, char **argv)
 {
 	t_carry *carrier;
 	t_arg con;
-	int i;
-	int status;
 
 	if (input_arg(&con, argc, argv) == -1)
 		return (printf("input error\n"));
@@ -69,8 +70,6 @@ int main(int argc, char **argv)
 		return (printf("init failed\n"));
 	if (create_thread(carrier, con) == -1)
 		return (printf("failed creating thread\n"));
-	i = -1;
-	while (++i < con.num_of_philo)
-		pthread_join(carrier[i].p_thread, (void *)&status);
+	free_all(carrier, con);
 	return (0);
 }

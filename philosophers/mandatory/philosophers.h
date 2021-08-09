@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/08 20:30:57 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 10:27:48 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_carry
 int input_arg(t_arg *con, int argc, char **argv);
 int init_carrier(t_carry **carrier, t_arg con);
 
+void free_all(t_carry *carrier, t_arg con);
 long get_gap_of_time(struct timeval a, struct timeval b);
 int ft_atoi_v2(char *str);
 int waiting(t_carry *carrier, struct timeval time, long wait_time);

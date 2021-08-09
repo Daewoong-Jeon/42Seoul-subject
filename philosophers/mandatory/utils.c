@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/08 20:29:47 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 11:42:23 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@ long get_gap_of_time(struct timeval a, struct timeval b)
 	return (((a.tv_sec - b.tv_sec) * 1000000 + a.tv_usec - b.tv_usec) / 1000);
 }
 
+void free_all(t_carry *carrier, t_arg con)
+{
+	int i;
+	int status;
+
+	i = -1;
+	while (++i < con.num_of_philo)
+	{
+		pthread_mutex_destroy(&carrier[0].fork[i]);
+		pthread_join(carrier[i].p_thread, (void *)&status);
+	}
+	pthread_mutex_destroy(&carrier[0].arg_dead);
+	free(carrier[0].dead);
+	free(carrier[0].fork);
+	free(carrier[0].permit);
+	free(carrier);
+}
+
 int ft_atoi_v2(char *str)
 {
 	int result;
@@ -25,19 +43,13 @@ int ft_atoi_v2(char *str)
 	i = -1;
 	result = 0;
 	if (str == NULL || str[0] == '-')
-	{
-		printf("error\n");
 		return (-1);
-	}
 	while (str[++i] != '\0')
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 			result = result * 10 + (str[i] - '0');
 		if (str[i] < '0' || str[i] > '9' || result < 0)
-		{
-			printf("error\n");
 			return (-1);
-		}
 	}
 	return (result);
 }
