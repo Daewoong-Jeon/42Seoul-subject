@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 19:50:26 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 23:10:21 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 23:29:25 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	init_carrier_sub(t_carry **carrier, t_arg con)
 	int				*permit;
 	int				i;
 
+	if (con.num_of_philo == 1)
+		while (1);
 	fork = malloc(sizeof(pthread_mutex_t) * con.num_of_philo);
 	permit = malloc(sizeof(int) * con.num_of_philo);
 	if (!(fork) || !(permit))
