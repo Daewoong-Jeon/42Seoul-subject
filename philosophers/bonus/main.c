@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:41:27 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:30:41 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 23:09:07 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@ int	input_arg(t_arg *con, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (-1);
-	if ((con->num_of_philo = ft_atoi_v2(argv[1])) == -1)
+	con->num_of_philo = ft_atoi_v2(argv[1]);
+	con->time_to_die = ft_atoi_v2(argv[2]);
+	if (con->num_of_philo == -1 || con->time_to_die == -1)
 		return (-1);
-	if ((con->time_to_die = ft_atoi_v2(argv[2])) == -1)
-		return (-1);
-	if ((con->time_to_eat = ft_atoi_v2(argv[3])) == -1)
-		return (-1);
-	if ((con->time_to_sleep = ft_atoi_v2(argv[4])) == -1)
+	con->time_to_eat = ft_atoi_v2(argv[3]);
+	con->time_to_sleep = ft_atoi_v2(argv[4]);
+	if (con->time_to_eat == -1 || con->time_to_sleep == -1)
 		return (-1);
 	if (argv[5] == NULL)
 		con->num_of_eat = -1;
 	else
 	{
-		if ((con->num_of_eat = ft_atoi_v2(argv[5])) == -1)
+		con->num_of_eat = ft_atoi_v2(argv[5]);
+		if (con->num_of_eat == -1)
 			return (-1);
 	}
 	gettimeofday(&con->start, NULL);
@@ -42,7 +43,8 @@ int	init_carrier(t_carry **carrier, t_arg con)
 	sem_t	*msg;
 	int		i;
 
-	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
+	*carrier = malloc(sizeof(t_carry) * con.num_of_philo);
+	if (!(*carrier))
 		return (-1);
 	sem = sem_open("/semaphore", O_CREAT | O_EXCL, 0644, con.num_of_philo / 2);
 	arg_dead = sem_open("/semaphore2", O_CREAT | O_EXCL, 0644, 1);
@@ -86,7 +88,8 @@ int	create_process(t_carry *carrier, t_arg con)
 	while (++i < con.num_of_philo)
 	{
 		carrier[i].before = start;
-		if ((carrier[i].pid = fork()) == -1)
+		carrier[i].pid = fork();
+		if (carrier[i].pid == -1)
 			return (-1);
 		if (carrier[i].pid == 0)
 		{
