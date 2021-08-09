@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:41:27 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 16:13:58 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 16:21:13 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,28 +86,11 @@ int create_process(t_carry *carrier, t_arg con)
 	while (++i < con.num_of_philo)
 	{
 		carrier[i].before = start;
-//		printf("%p\n", &con.start);
-//		printf("%d : %p\n", i, &carrier);
-//		printf("%d : %p\n", i, &carrier[i]);
-//		printf("%d : %p\n", i, &carrier[i].philo);
-//		printf("%d : %p\n", i, &carrier[i].cur_num_eating);
-//		printf("%d : %p\n", i, &carrier[i].arg_dead);
-//		printf("%d : %p\n", i, &carrier[i].sem);
-//		printf("%d : %p\n", i, &carrier[i].msg);
-//		printf("%d : %p\n", i, &carrier[i].con);
-//		printf("%d : %p\n", i, &carrier[i].before);
-//		printf("%d : %p\n", i, &carrier[i].con.start);
-//		printf("%d : %p\n", i, &carrier[i].pid);
 		if ((carrier[i].pid = fork()) == -1)
 			return (-1);
-//		printf("%d : %p\n", i, &carrier[i].pid);
 		if (carrier[i].pid == 0)
 		{
-			while (1)
-			{
-			
-			}
-//			exec(&carrier[i]);
+			exec(&carrier[i]);
 			break ;
 		}
 	}
