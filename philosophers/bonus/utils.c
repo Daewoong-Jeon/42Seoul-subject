@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:44 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/08 17:59:35 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 16:10:08 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,13 @@ int ft_atoi_v2(char *str)
 	i = -1;
 	result = 0;
 	if (str == NULL || str[0] == '-')
-	{
-		printf("error\n");
 		return (-1);
-	}
 	while (str[++i] != '\0')
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 			result = result * 10 + (str[i] - '0');
 		if (str[i] < '0' || str[i] > '9' || result < 0)
-		{
-			printf("error\n");
 			return (-1);
-		}
 	}
 	return (result);
 }
