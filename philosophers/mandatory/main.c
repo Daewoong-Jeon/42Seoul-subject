@@ -6,17 +6,17 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 12:09:38 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:35:55 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void *exec(void *data)
+void	*exec(void *data)
 {
-	t_carry *carrier;
-	pthread_t monitor_id;
-	int num_of_philo;
+	t_carry		*carrier;
+	pthread_t	monitor_id;
+	int			num_of_philo;
 
 	carrier = (t_carry *)data;
 	num_of_philo = carrier->con.num_of_philo;
@@ -26,7 +26,7 @@ void *exec(void *data)
 	while (1)
 	{
 		if (pick_up(carrier, &carrier->fork[carrier->philo],
-			&carrier->fork[(carrier->philo + 1) % num_of_philo]) == -1)
+				&carrier->fork[(carrier->philo + 1) % num_of_philo]) == -1)
 			return (NULL);
 		if (eating(carrier) == -1)
 			return (NULL);
@@ -40,10 +40,10 @@ void *exec(void *data)
 	return (NULL);
 }
 
-int create_thread(t_carry *carrier, t_arg con)
+int	create_thread(t_carry *carrier, t_arg con)
 {
-	int i;
-	int status;
+	int	i;
+	int	status;
 
 	i = -1;
 	while (++i < con.num_of_philo)
@@ -59,10 +59,10 @@ int create_thread(t_carry *carrier, t_arg con)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_carry *carrier;
-	t_arg con;
+	t_carry	*carrier;
+	t_arg	con;
 
 	if (input_arg(&con, argc, argv) == -1)
 		return (printf("input error\n"));

@@ -6,13 +6,13 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:41:27 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 16:21:13 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:30:41 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
 
-int input_arg(t_arg *con, int argc, char **argv)
+int	input_arg(t_arg *con, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (-1);
@@ -35,12 +35,12 @@ int input_arg(t_arg *con, int argc, char **argv)
 	return (0);
 }
 
-int init_carrier(t_carry **carrier, t_arg con)
+int	init_carrier(t_carry **carrier, t_arg con)
 {
-	sem_t *sem;
-	sem_t *arg_dead;
-	sem_t *msg;
-	int i;
+	sem_t	*sem;
+	sem_t	*arg_dead;
+	sem_t	*msg;
+	int		i;
 
 	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
 		return (-1);
@@ -62,9 +62,9 @@ int init_carrier(t_carry **carrier, t_arg con)
 	return (0);
 }
 
-void exec(t_carry *carrier)
+void	exec(t_carry *carrier)
 {
-	pthread_t monitor_id;
+	pthread_t	monitor_id;
 
 	pthread_create(&monitor_id, NULL, monitor_thread, carrier);
 	signal(SIGINT, handle_signal);
@@ -76,10 +76,10 @@ void exec(t_carry *carrier)
 	pthread_join(monitor_id, NULL);
 }
 
-int create_process(t_carry *carrier, t_arg con)
+int	create_process(t_carry *carrier, t_arg con)
 {
-	struct timeval start;
-	int i;
+	struct timeval	start;
+	int				i;
 
 	i = -1;
 	gettimeofday(&start, NULL);
@@ -99,10 +99,10 @@ int create_process(t_carry *carrier, t_arg con)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_carry *carrier;
-	t_arg con;
+	t_carry	*carrier;
+	t_arg	con;
 
 	if (input_arg(&con, argc, argv) == -1)
 		return (printf("input error\n"));

@@ -6,13 +6,13 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 19:50:26 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 11:44:30 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:36:43 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int input_arg(t_arg *con, int argc, char **argv)
+int	input_arg(t_arg *con, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (-1);
@@ -35,11 +35,11 @@ int input_arg(t_arg *con, int argc, char **argv)
 	return (0);
 }
 
-int init_carrier_sub(t_carry **carrier, t_arg con)
+int	init_carrier_sub(t_carry **carrier, t_arg con)
 {
-	pthread_mutex_t *fork;
-	int *permit;
-	int i;
+	pthread_mutex_t	*fork;
+	int				*permit;
+	int				i;
 
 	if (!(fork = malloc(sizeof(pthread_mutex_t) * con.num_of_philo)))
 		return (-1);
@@ -60,11 +60,11 @@ int init_carrier_sub(t_carry **carrier, t_arg con)
 	return (0);
 }
 
-int init_carrier(t_carry **carrier, t_arg con)
+int	init_carrier(t_carry **carrier, t_arg con)
 {
-	pthread_mutex_t dead_lock;
-	int i;
-	int *dead;
+	pthread_mutex_t	dead_lock;
+	int				i;
+	int				*dead;
 
 	if (!(*carrier = malloc(sizeof(t_carry) * con.num_of_philo)))
 		return (-1);

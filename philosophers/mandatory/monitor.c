@@ -6,15 +6,15 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 18:46:08 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/08 20:31:53 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:34:50 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void kill_philo(t_carry *carrier, struct timeval cur)
+void	kill_philo(t_carry *carrier, struct timeval cur)
 {
-	long time;
+	long	time;
 
 	pthread_mutex_lock(&carrier->arg_dead);
 	if (*(carrier->dead) == 0)
@@ -27,17 +27,17 @@ void kill_philo(t_carry *carrier, struct timeval cur)
 	pthread_mutex_unlock(&carrier->arg_dead);
 }
 
-void *monitor(void *data)
+void	*monitor(void *data)
 {
-	struct timeval cur;
-	t_carry *carrier;
-	long time;
+	struct timeval	cur;
+	t_carry			*carrier;
+	long			time;
 
 	carrier = (t_carry *)data;
 	while (1)
 	{
-		if (carrier->con.num_of_eat != -1
-				&& carrier->cur_num_eating >= carrier->con.num_of_eat)
+		if (carrier->con.num_of_eat != -1 \
+			&& carrier->cur_num_eating >= carrier->con.num_of_eat)
 		{
 			carrier->out = 1;
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 17:34:47 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 17:55:16 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:28:48 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	process_state(t_carry *carrier, int *full)
 	return (0);
 }
 
-void monitor_process(t_carry *carrier)
+void	monitor_process(t_carry *carrier)
 {
-	int full;
+	int	full;
 
 	full = 0;
 	while (1)
@@ -53,7 +53,7 @@ void monitor_process(t_carry *carrier)
 	}
 }
 
-void *monitor_thread(void *data)
+void	*monitor_thread(void *data)
 {
 	struct timeval	cur;
 	t_carry			*carrier;
