@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:33:07 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:57:24 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,21 @@ typedef struct s_carry
 	t_arg			con;
 }	t_carry;
 
-int	input_arg(t_arg *con, int argc, char **argv);
-int	init_carrier(t_carry **carrier, t_arg con);
+int		input_arg(t_arg *con, int argc, char **argv);
+int		init_carrier(t_carry **carrier, t_arg con);
 
 void	free_all(t_carry *carrier, t_arg con);
 long	get_gap_of_time(struct timeval a, struct timeval b);
-int	ft_atoi_v2(char *str);
-int	waiting(t_carry *carrier, struct timeval time, long wait_time);
-int	block(t_carry *carrier);
+int		ft_atoi_v2(char *str);
+int		waiting(t_carry *carrier, struct timeval time, long wait_time);
+int		block(t_carry *carrier);
 
-int	eating(t_carry *carrier);
-int	sleeping_and_thinking(t_carry *carrier);
-int	pick_up(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2);
-void	put_down(t_carry *carrier, pthread_mutex_t *lock1, pthread_mutex_t *lock2);
+int		eating(t_carry *carrier);
+int		sleeping_and_thinking(t_carry *carrier);
+int		pick_up(t_carry *carrier, pthread_mutex_t *lock1, \
+		pthread_mutex_t *lock2);
+void	put_down(t_carry *carrier, pthread_mutex_t *lock1, \
+		pthread_mutex_t *lock2);
 
 void	*monitor(void *data);
 

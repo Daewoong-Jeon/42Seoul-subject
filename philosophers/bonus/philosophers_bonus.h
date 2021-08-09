@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:26:06 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/09 18:55:44 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_carry
 long	get_gap_of_time(struct timeval a, struct timeval b);
 void	handle_signal(int signo);
 void	free_all(void);
-int	ft_atoi_v2(char *str);
+int		ft_atoi_v2(char *str);
 
 void	eating(t_carry *carrier);
 void	sleeping_and_thinking(t_carry *carrier);
