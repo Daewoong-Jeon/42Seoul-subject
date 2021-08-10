@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:31:35 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 13:19:45 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	waiting(t_carry *carrier, struct timeval start, long wait_time)
 				+ cur.tv_usec - start.tv_usec);
 		if (time > wait_time * 1000)
 			break ;
-		usleep(100);
+		usleep(500);
 	}
 	return (0);
 }
@@ -84,7 +84,7 @@ int	block(t_carry *carrier)
 	{
 		if (*(carrier->dead) == 1)
 			return (-1);
-		usleep(100);
+		usleep(500);
 	}
 	carrier->permit[right] = 0;
 	carrier->permit[left] = 0;

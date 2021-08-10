@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 17:34:47 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:28:48 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 13:51:55 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	monitor_process(t_carry *carrier)
 			free_all();
 			return ;
 		}
-		usleep(100);
+		usleep(500);
 	}
 }
 
@@ -77,7 +77,7 @@ void	*monitor_thread(void *data)
 			printf("%ldms %d died\n", time, carrier->philo);
 			exit(1);
 		}
-		usleep(100);
+		usleep(500);
 	}
 	return (NULL);
 }

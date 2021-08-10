@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:55:44 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 13:55:00 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ long	get_gap_of_time(struct timeval a, struct timeval b);
 void	handle_signal(int signo);
 void	free_all(void);
 int		ft_atoi_v2(char *str);
+void	waiting(struct timeval start, long wait_time);
 
 void	eating(t_carry *carrier);
 void	sleeping_and_thinking(t_carry *carrier);

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 16:33:50 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:27:54 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 13:57:05 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	eating(t_carry *carrier)
 	time = get_gap_of_time(cur, carrier->con.start);
 	printf("%ldms %d is eating\n", time, carrier->philo);
 	sem_post(carrier->msg);
-	usleep(carrier->con.time_to_eat * 1000);
+	waiting(cur, carrier->con.time_to_eat);
 	sem_post(carrier->sem);
 }
 
@@ -44,7 +44,7 @@ void	sleeping_and_thinking(t_carry *carrier)
 	time = get_gap_of_time(cur, carrier->con.start);
 	printf("%ldms %d is sleeping\n", time, carrier->philo);
 	sem_post(carrier->msg);
-	usleep(carrier->con.time_to_sleep * 1000);
+	waiting(cur, carrier->con.time_to_sleep);
 	sem_wait(carrier->msg);
 	gettimeofday(&cur, NULL);
 	time = get_gap_of_time(cur, carrier->con.start);

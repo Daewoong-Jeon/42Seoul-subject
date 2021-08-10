@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:44 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:24:16 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 13:54:43 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,20 @@ int	ft_atoi_v2(char *str)
 			return (-1);
 	}
 	return (result);
+}
+
+void waiting(struct timeval start, long wait_time)
+{
+	struct timeval	cur;
+	long			time;
+
+	while (1)
+	{
+		gettimeofday(&cur, NULL);
+		time = ((cur.tv_sec - start.tv_sec) * 1000000
+				+ cur.tv_usec - start.tv_usec);
+		if (time > wait_time * 1000)
+			break ;
+		usleep(500);
+	}
 }
