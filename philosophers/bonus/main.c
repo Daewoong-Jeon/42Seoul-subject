@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:41:27 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 23:09:07 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 09:12:05 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ void	exec(t_carry *carrier)
 
 	pthread_create(&monitor_id, NULL, monitor_thread, carrier);
 	signal(SIGINT, handle_signal);
+	if (carrier->philo % 2 == 1)
+		usleep(carrier->con.time_to_eat / 2);
 	while (1)
 	{
 		eating(carrier);
 		sleeping_and_thinking(carrier);
+		usleep(1000);
 	}
 	pthread_join(monitor_id, NULL);
 }
