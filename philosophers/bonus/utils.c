@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 11:42:44 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/10 13:54:43 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/10 13:51:34 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_atoi_v2(char *str)
 	return (result);
 }
 
-void waiting(struct timeval start, long wait_time)
+void	waiting(struct timeval start, long wait_time)
 {
 	struct timeval	cur;
 	long			time;
