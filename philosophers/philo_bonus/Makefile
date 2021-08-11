@@ -6,14 +6,14 @@
 #    By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/19 19:34:17 by djeon             #+#    #+#              #
-#    Updated: 2021/08/09 16:14:21 by djeon            ###   ########.fr        #
+#    Updated: 2021/08/11 23:53:06 by djeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 HEADER = philosophers.h
 CFLAGS = -Wall -Wextra -Werror
-NAME = philosophers_bonus
+NAME = philo_bonus
 SRC = main.c philo_exec.c monitor.c utils.c
 OBJECTS = $(SRC:.c=.o)
 
