@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/10 13:51:02 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/11 23:36:38 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*exec(void *data)
 	num_of_philo = carrier->con.num_of_philo;
 	pthread_create(&monitor_id, NULL, monitor, carrier);
 	if (carrier->philo % 2 == 0)
-		waiting(carrier, carrier->con.start, carrier->con.time_to_eat);
+		waiting(carrier, carrier->con.start, carrier->con.time_to_eat / 2);
 	while (1)
 	{
 		if (pick_up(carrier, &carrier->fork[carrier->philo],
@@ -30,11 +30,11 @@ void	*exec(void *data)
 			return (NULL);
 		if (eating(carrier) == -1)
 			return (NULL);
-		put_down(carrier, &carrier->fork[carrier->philo],
+		put_down(&carrier->fork[carrier->philo],
 			&carrier->fork[(carrier->philo + 1) % num_of_philo]);
 		if (sleeping_and_thinking(carrier) == -1)
 			return (NULL);
-		usleep(1000);
+		usleep(500);
 	}
 	pthread_join(monitor_id, NULL);
 	return (NULL);

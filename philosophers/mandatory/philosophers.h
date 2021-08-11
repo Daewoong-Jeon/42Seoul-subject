@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:59 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/09 18:57:24 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/11 23:32:08 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ int		eating(t_carry *carrier);
 int		sleeping_and_thinking(t_carry *carrier);
 int		pick_up(t_carry *carrier, pthread_mutex_t *lock1, \
 		pthread_mutex_t *lock2);
-void	put_down(t_carry *carrier, pthread_mutex_t *lock1, \
-		pthread_mutex_t *lock2);
+void	put_down(pthread_mutex_t *lock1, pthread_mutex_t *lock2);
 
 void	*monitor(void *data);
 
