@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 18:57:46 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/12 10:38:06 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/12 11:15:55 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,18 @@ int	eating(t_carry *carrier)
 
 	gettimeofday(&cur, NULL);
 	cur_time = get_gap_of_time(cur, carrier->con.start);
-	if (*(carrier->dead) == 1)
+	if (*(carrier->dead) == 1 || carrier->out == 1)
 		return (-1);
 	printf("%ldms %d has taken a fork\n", cur_time, carrier->philo);
 	gettimeofday(&cur, NULL);
 	cur_time = get_gap_of_time(cur, carrier->con.start);
-	if (*(carrier->dead) == 1)
+	if (*(carrier->dead) == 1 || carrier->out == 1)
 		return (-1);
 	carrier->last_eat = cur;
-	(carrier->cur_num_eating)++;
 	printf("%ldms %d is eating\n", cur_time, carrier->philo);
+	(carrier->cur_num_eating)++;
 	if (waiting(carrier, cur, carrier->con.time_to_eat) == -1)
 		return (-1);
-	(carrier->cur_num_eating)++;
 	return (0);
 }
 
@@ -66,7 +65,7 @@ int	sleeping_and_thinking(t_carry *carrier)
 		return (-1);
 	gettimeofday(&cur, NULL);
 	cur_time = get_gap_of_time(cur, carrier->con.start);
-	if (*(carrier->dead) == 1)
+	if (*(carrier->dead) == 1 || carrier->out == 1)
 		return (-1);
 	printf("%ldms %d is thinking\n", cur_time, carrier->philo);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:51:14 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/11 23:39:06 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/12 11:16:18 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	waiting(t_carry *carrier, struct timeval start, long wait_time)
 
 	while (1)
 	{
-		if (*(carrier->dead) == 1)
+		if (*(carrier->dead) == 1 || carrier->out == 1)
 			return (-1);
 		gettimeofday(&cur, NULL);
 		time = ((cur.tv_sec - start.tv_sec) * 1000000
