@@ -6,13 +6,13 @@
 /*   By: djeon <djeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 17:27:21 by djeon             #+#    #+#             */
-/*   Updated: 2021/08/12 10:55:02 by djeon            ###   ########.fr       */
+/*   Updated: 2021/08/12 13:31:24 by djeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int		routine(t_carry *carrier)
+int	routine(t_carry *carrier)
 {
 	int	num_of_philo;
 
